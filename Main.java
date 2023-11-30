@@ -1,16 +1,16 @@
-import javax.swing.*;
+import java.sql.Date;
+import Models.User;
 
 public class Main {
 	public static final int SCREEN_WIDTH = 1600;
 	public static final int SCREEN_HEIGHT = 900;
 
-	private JFrame frame;
-
 	private Main() {
-        frame = new LoginFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-        frame.setVisible(true);
+		User user = new User(
+			"zafeertariq", "Zafeer", "Tariq", "nothing in bio",
+			"0300-4220223", new Date(2004, 3, 8)
+		);
+        new UserFrame(user);
 	}
 
 	public static void main(String[] args) {
