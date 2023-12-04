@@ -2,7 +2,7 @@ package Models;
 
 import java.sql.Date;
 
-public class User {
+public class User extends Object {
 	private String userID;
 	private String firstName;
 	private String lastName;
@@ -19,6 +19,12 @@ public class User {
 		this.dob = dob;
 	}
 
+	public User(String fname, String lname) {
+		this.firstName = fname;
+		this.lastName = lname;
+	}
+
+	@Override
 	public String getName() {
 		return firstName + ' ' + lastName;
 	}
