@@ -129,6 +129,7 @@ public class LoginPage extends BasePage {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        // Main.states.changeState(new HomePage());
     }
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
