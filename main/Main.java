@@ -11,9 +11,11 @@ import Util.State;
 public class Main {
 	public static State states = new State();
 
-	ArrayList<User> users = new ArrayList<User>();
-	ArrayList<Page> pages = new ArrayList<>();
-	ArrayList<Post> posts = new ArrayList<>();
+	public static ArrayList<User> users = new ArrayList<User>();
+	public static ArrayList<Page> pages = new ArrayList<>();
+	public static ArrayList<Post> posts = new ArrayList<>();
+
+	public static User currentUser;
 
 	private void createUsers() {
 		users.add(new User("Zafeer", "Tariq"));
@@ -49,8 +51,16 @@ public class Main {
 		createPages();
 		createPosts();
 
+		currentUser = users.get(0);
+		ArrayList<Hobby> hobbies = new ArrayList<>();
+		hobbies.add(new Hobby("programming"));
+		hobbies.add(new Hobby("gaming"));
+		hobbies.add(new Hobby("cycling"));
+		hobbies.add(new Hobby("reading"));
+		currentUser.setHobbies(hobbies);
+
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new LoginPage());
+			states.changeState(new ProfilePage(currentUser));
 		});
 	}
 

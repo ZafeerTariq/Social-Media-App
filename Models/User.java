@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class User extends Object {
 	private String userID;
@@ -9,6 +10,7 @@ public class User extends Object {
 	private String bio;
 	private String phoneNumber;
 	private Date dob;
+	private ArrayList<Hobby> hobbies;
 
 	public User(String id, String fName, String lName, String bio, String phone, Date dob) {
 		this.userID = id;
@@ -31,5 +33,13 @@ public class User extends Object {
 
 	public String getUserID() {
 		return userID;
+	}
+
+	public ArrayList<Hobby> getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(ArrayList<Hobby> hobbies) {
+		this.hobbies = hobbies;
 	}
 }
