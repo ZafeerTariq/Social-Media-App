@@ -8,15 +8,18 @@ import javax.swing.SwingUtilities;
 
 import Models.Post;
 import UI.Templates.PostTemplate;
+import main.Main;
 
 public class HomePage extends BasePage {
     public HomePage(ArrayList<Post> posts) {
         initComponents();
 
-        container.setPreferredSize(new Dimension(1280, (posts.size() + 1) * (200 + 10)));
+        if (posts != null) {
+            container.setPreferredSize(new Dimension(1280, (posts.size() + 1) * (200 + 10)));
 
-        for (int i = 0; i < posts.size(); i++) {
-            container.add(new PostTemplate(posts.get(i), i));
+            for (int i = 0; i < posts.size(); i++) {
+                container.add(new PostTemplate(posts.get(i), i));
+            }
         }
 
         //Bring the view to the start of page
@@ -103,6 +106,7 @@ public class HomePage extends BasePage {
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         System.out.println("settings button pressed");
+        Main.states.changeState(new SettingsPage());
     }
 
     // Variables declaration - do not modify

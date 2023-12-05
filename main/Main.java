@@ -1,11 +1,12 @@
-import java.awt.Dimension;
-import java.awt.Image;
+package main;
+
 import java.util.ArrayList;
 
 import javax.swing.*;
 
 import Models.*;
 import UI.Screens.*;
+import Util.State;
 
 public class Main {
 	public static State states = new State();
@@ -49,7 +50,7 @@ public class Main {
 		createPosts();
 
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new HomePage(posts));
+			states.changeState(new LoginPage());
 		});
 	}
 

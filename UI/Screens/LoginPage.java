@@ -1,5 +1,7 @@
 package UI.Screens;
 
+import main.Main;
+
 public class LoginPage extends BasePage {
     public LoginPage() {
         initComponents();
