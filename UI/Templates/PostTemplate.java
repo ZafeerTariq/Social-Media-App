@@ -1,11 +1,8 @@
 package UI.Templates;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -26,10 +23,9 @@ public class PostTemplate extends JPanel {
 
 	public PostTemplate(Post post, int n) {
 		this.post = post;
-		String name = this.post.getSharedBy().getName();
 		String text = this.post.getText();
 
-		username = new JLabel(name);
+		username = new UserButton(this.post.getSharedBy());
 		postText = new JTextArea();
 
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -38,16 +34,6 @@ public class PostTemplate extends JPanel {
 		postText.setWrapStyleWord(true);
 		postText.setText(text);
 		postText.setEditable(false);
-
-		// make username clickable to go to user's page
-		username.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        username.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-				//TODO goto user's page
-                System.out.println("username clicked");
-            }
-        });
 
 		JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         usernamePanel.add(username);

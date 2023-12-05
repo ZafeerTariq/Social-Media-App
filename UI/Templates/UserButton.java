@@ -6,12 +6,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 
-import Models.User;
+import Models.Object;
 
 public class UserButton extends JLabel {
-	private User user;
+	private Object user;
 
-	public UserButton(User u) {
+	public UserButton(Object u) {
 		this.user = u;
 		setText(user.getName());
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
