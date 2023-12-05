@@ -60,7 +60,7 @@ public class Main {
 		currentUser.setHobbies(hobbies);
 
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new ProfilePage(currentUser));
+			states.changeState(new HomePage(posts));
 		});
 	}
 
