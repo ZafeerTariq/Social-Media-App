@@ -1,12 +1,14 @@
 package UI.Screens;
 
+import main.Main;
+
 public class RegistrationPage extends BasePage {
     public RegistrationPage() {
         initComponents();
+        errorLabel.setVisible(false);
     }
 
     private void initComponents() {
-
         pageHeading = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -28,6 +30,7 @@ public class RegistrationPage extends BasePage {
         monthTextField = new javax.swing.JTextField();
         yearTextField = new javax.swing.JTextField();
         registerButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -137,11 +140,20 @@ public class RegistrationPage extends BasePage {
             }
         });
 
+        errorLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(204, 0, 51));
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        errorLabel.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(440, 440, 440)
+                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(410, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -163,6 +175,15 @@ public class RegistrationPage extends BasePage {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(passwordTextField, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addGap(34, 34, 34)
+                            .addComponent(phoneTextField))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(cPassTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -175,20 +196,8 @@ public class RegistrationPage extends BasePage {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(yearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(34, 34, 34)
-                            .addComponent(phoneTextField))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cPassTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(273, 273, 273))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(440, 440, 440)
-                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,14 +238,64 @@ public class RegistrationPage extends BasePage {
                     .addComponent(yearTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(203, Short.MAX_VALUE))
+                .addGap(65, 65, 65)
+                .addComponent(errorLabel)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        String year = yearTextField.getText();
+        String month = monthTextField.getText();
+        String day = dateTextField.getText();
+
+        if (lNameTextField.getText().isEmpty() || fNameTextField.getText().isEmpty()) {
+            errorLabel.setText("Name cannot be empty");
+            errorLabel.setVisible(true);
+            return;
+        }
+        if (emailTextField.getText().isEmpty()) {
+            errorLabel.setText("email Invalid");
+            errorLabel.setVisible(true);
+            return;
+        }
+        if (passwordTextField.getText().isEmpty()) {
+            errorLabel.setText("Password cannot be empty");
+            errorLabel.setVisible(true);
+            return;
+        }
+        if (!passwordTextField.getText().equals(cPassTextField.getText())) {
+            errorLabel.setText("Passwords don't match");
+            errorLabel.setVisible(true);
+            return;
+        }
+        if (year.isEmpty() || month.isEmpty() || day.isEmpty()) {
+            errorLabel.setText("Date Not Valid");
+            errorLabel.setVisible(true);
+            return;
+        }
+        if (!isValidDate(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day))) {
+            errorLabel.setText("Date Not Valid");
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        String dateString = year + "-" + month + "-" + day;
+        java.sql.Date dob = java.sql.Date.valueOf(dateString);
+
+        if (Main.db.addUser(
+            fNameTextField.getText(), lNameTextField.getText(), emailTextField.getText(),
+            passwordTextField.getText(), phoneTextField.getText(), dob
+        )) {
+            errorLabel.setText("Registration Successful");
+            errorLabel.setVisible(true);
+        }
+        else {
+            errorLabel.setText("Could Not Register");
+            errorLabel.setVisible(true);
+        }
     }
 
     private void fNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
@@ -275,6 +334,25 @@ public class RegistrationPage extends BasePage {
         // TODO add your handling code here:
     }
 
+    private boolean isValidDate(int year, int month, int day) {
+        if (year < 1900 || year > 2100) {
+            System.out.println("Invalid year. Please provide a year between 1900 and 2100.");
+            return false;
+        }
+
+        if (month < 1 || month > 12) {
+            System.out.println("Invalid month. Please provide a month between 1 and 12.");
+            return false;
+        }
+
+        if (day < 1 || day > 31) {
+            System.out.println("Invalid day. Please provide a day between 1 and 31.");
+            return false;
+        }
+
+        return true;
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JTextField cPassTextField;
     private javax.swing.JTextField dateTextField;
@@ -297,5 +375,6 @@ public class RegistrationPage extends BasePage {
     private javax.swing.JTextField phoneTextField;
     private javax.swing.JButton registerButton;
     private javax.swing.JTextField yearTextField;
+    private javax.swing.JLabel errorLabel;
     // End of variables declaration
 }

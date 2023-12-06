@@ -8,7 +8,6 @@ public class LoginPage extends BasePage {
     }
 
     private void initComponents() {
-
         pageHeading = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -17,10 +16,6 @@ public class LoginPage extends BasePage {
         loginButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         registerButton = new javax.swing.JButton();
-
-        // setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        // setPreferredSize(new java.awt.Dimension(1280, 720));
-        // setSize(new java.awt.Dimension(1280, 720));
 
         pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
         pageHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

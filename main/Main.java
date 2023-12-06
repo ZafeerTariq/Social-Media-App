@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import Database.DatabaseServices;
 import Models.*;
 import UI.Screens.*;
 import Util.State;
 
 public class Main {
 	public static State states = new State();
+	public static DatabaseServices db = new DatabaseServices();
 
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Page> pages = new ArrayList<>();
@@ -59,8 +61,10 @@ public class Main {
 		hobbies.add(new Hobby("reading"));
 		currentUser.setHobbies(hobbies);
 
+		db.initConnection();
+
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new HomePage(posts));
+			states.changeState(new LoginPage());
 		});
 	}
 
