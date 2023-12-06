@@ -1,6 +1,7 @@
 package UI.Screens;
 
-import main.Main;
+import main.SocialMedia;
+import main.SocialMedia;
 
 public class RegistrationPage extends BasePage {
     public RegistrationPage() {
@@ -285,7 +286,7 @@ public class RegistrationPage extends BasePage {
         String dateString = year + "-" + month + "-" + day;
         java.sql.Date dob = java.sql.Date.valueOf(dateString);
 
-        if (Main.db.addUser(
+        if (SocialMedia.db.addUser(
             fNameTextField.getText(), lNameTextField.getText(), emailTextField.getText(),
             passwordTextField.getText(), phoneTextField.getText(), dob
         )) {

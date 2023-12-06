@@ -1,6 +1,7 @@
 package UI.Screens;
 
-import main.Main;
+import main.SocialMedia;
+import main.SocialMedia;
 
 public class LoginPage extends BasePage {
     public LoginPage() {
@@ -131,7 +132,7 @@ public class LoginPage extends BasePage {
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        Main.states.changeState(new RegistrationPage());
+        SocialMedia.states.changeState(new RegistrationPage());
     }
 
     // Variables declaration - do not modify

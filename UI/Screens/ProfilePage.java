@@ -12,7 +12,8 @@ import javax.swing.border.EmptyBorder;
 import Models.Hobby;
 import Models.User;
 import UI.Templates.UserButton;
-import main.Main;
+import main.SocialMedia;
+import main.SocialMedia;
 
 public class ProfilePage extends BasePage {
 	private User user;
@@ -40,9 +41,9 @@ public class ProfilePage extends BasePage {
 		JPanel leftAligned = new JPanel();
 		leftAligned.setLayout(new BoxLayout(leftAligned, BoxLayout.Y_AXIS));
 
-		for (int i = 1; i < Main.users.size(); i++) {
+		for (int i = 1; i < SocialMedia.users.size(); i++) {
 			leftAligned.add(new JLabel(" "));
-			leftAligned.add(new UserButton(Main.users.get(i)));
+			leftAligned.add(new UserButton(SocialMedia.users.get(i)));
 		}
 
 		friendsContainer.add(leftAligned);

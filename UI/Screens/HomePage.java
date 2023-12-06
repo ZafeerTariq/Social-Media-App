@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 import Models.Post;
 import UI.Templates.PostTemplate;
-import main.Main;
+import main.SocialMedia;
 
 public class HomePage extends BasePage {
     public HomePage(ArrayList<Post> posts) {
@@ -106,7 +106,7 @@ public class HomePage extends BasePage {
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         System.out.println("settings button pressed");
-        Main.states.changeState(new SettingsPage());
+        SocialMedia.states.changeState(new SettingsPage());
     }
 
     // Variables declaration - do not modify

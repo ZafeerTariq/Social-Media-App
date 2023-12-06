@@ -4,26 +4,38 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class User extends Object {
-	private String userID;
+	private int userID;
+	private String username;
 	private String firstName;
 	private String lastName;
 	private String bio;
 	private String phoneNumber;
 	private Date dob;
+	private String city;
 	private ArrayList<Hobby> hobbies;
+	private ArrayList<User> friends;
 
-	public User(String id, String fName, String lName, String bio, String phone, Date dob) {
+	public User(int id, String username, String fName, String lName, String bio, String phone, Date dob, String city) {
 		this.userID = id;
+		this.username = username;
 		this.firstName = fName;
 		this.lastName = lName;
 		this.bio = bio;
 		this.phoneNumber = phone;
 		this.dob = dob;
+		this.city = city;
+		this.hobbies = new ArrayList<>();
+		this.friends = new ArrayList<>();
 	}
 
-	public User(String fname, String lname) {
-		this.firstName = fname;
-		this.lastName = lname;
+	public void addFriend(User friend) {
+		friends.add(friend);
+	}
+
+	public void printFriendList() {
+		for (int i = 0; i < friends.size(); i++) {
+			System.out.println(friends.get(i).getName());
+		}
 	}
 
 	@Override
@@ -31,7 +43,7 @@ public class User extends Object {
 		return firstName + ' ' + lastName;
 	}
 
-	public String getUserID() {
+	public int getUserID() {
 		return userID;
 	}
 

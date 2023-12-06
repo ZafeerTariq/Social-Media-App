@@ -4,7 +4,8 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import main.Main;
+import main.SocialMedia;
+import main.SocialMedia;
 
 public class SettingsPage extends BasePage {
     public SettingsPage() {
@@ -100,7 +101,7 @@ public class SettingsPage extends BasePage {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 		System.out.println("Back Button Pressed");
-		Main.states.changeState(new HomePage(null));
+		SocialMedia.states.changeState(new HomePage(null));
 	}
 
     private void changeThemeButtonActionPerformed(java.awt.event.ActionEvent evt) {

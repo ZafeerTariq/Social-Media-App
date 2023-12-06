@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Models.User;
+import main.SocialMedia;
+
 public class DatabaseServices {
     private String connectionString = "jdbc:sqlserver://DESKTOP-IM1NTKG\\SQLEXPRESS:1433;"
         + "database=socialMedia;"
@@ -31,14 +34,34 @@ public class DatabaseServices {
     }
 
     public void loadUsers() {
-        String sql = "SELECT * FROM pokemon";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
+        String query = "SELECT * FROM \"USER\"";
+        try (PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                // Process the result set
-                String column1Value = resultSet.getString("name");
-                System.out.println(column1Value);
-                // ... process other columns
+                int id = resultSet.getInt("userID");
+                String fname = resultSet.getString("first_name");
+                String lname = resultSet.getString("last_name");
+                String username = resultSet.getString("username");
+                String bio = resultSet.getString("bio");
+                String contact = resultSet.getString("contact");
+                String city = resultSet.getString("city");
+                Date dob = resultSet.getDate("dob");
+
+                SocialMedia.users.add(new User(id,username, fname, lname, bio, contact, dob, city));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        query = "SELECT * FROM friendship";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id1 = resultSet.getInt("userID1");
+                int id2 = resultSet.getInt("userID2");
+
+                SocialMedia.searchUserByID(id1).addFriend(SocialMedia.searchUserByID(id2));
+                SocialMedia.searchUserByID(id2).addFriend(SocialMedia.searchUserByID(id1));
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -47,14 +70,15 @@ public class DatabaseServices {
 
     public boolean addUser(String fname, String lname, String email, String password, String contact, Date dob) {
         String query = "INSERT INTO \"User\" "
-        + "(username, email, password, contact, dob) "
-        + "VALUES (?, ?, ?, ?, ?)";
+        + "(first_name, last_name, email, password, contact, dob) "
+        + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, fname + " " + lname);
-            statement.setString(2, email);
-            statement.setString(3, password);
-            statement.setString(4, contact);
-            statement.setDate(5, dob);
+            statement.setString(1, fname);
+            statement.setString(2, lname);
+            statement.setString(3, email);
+            statement.setString(4, password);
+            statement.setString(5, contact);
+            statement.setDate(6, dob);
 
             int rowsAffected = statement.executeUpdate();
 

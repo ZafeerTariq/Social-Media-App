@@ -9,9 +9,17 @@ import Models.*;
 import UI.Screens.*;
 import Util.State;
 
-public class Main {
+public class SocialMedia {
 	public static State states = new State();
 	public static DatabaseServices db = new DatabaseServices();
+
+	public static User searchUserByID(int id) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getUserID() == id)
+				return users.get(i);
+		}
+		return null;
+	}
 
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Page> pages = new ArrayList<>();
@@ -19,13 +27,6 @@ public class Main {
 
 	public static User currentUser;
 
-	private void createUsers() {
-		users.add(new User("Zafeer", "Tariq"));
-		users.add(new User("Hamza", "Mansoor"));
-		users.add(new User("Syed", "Mujtaba"));
-		users.add(new User("Abdullah", "Umer"));
-		users.add(new User("Anzar", "Zahid"));
-	}
 
 	private void createPages() {
 		pages.add(new Page("FCBarcelona"));
@@ -48,20 +49,25 @@ public class Main {
 		posts.add(new Post("The GOAT Neymar", pages.get(0)));
 	}
 
-	private Main() {
-		createUsers();
-		createPages();
-		createPosts();
+	private SocialMedia() {
+		// createUsers();
+		// createPages();
+		// createPosts();
 
-		currentUser = users.get(0);
-		ArrayList<Hobby> hobbies = new ArrayList<>();
-		hobbies.add(new Hobby("programming"));
-		hobbies.add(new Hobby("gaming"));
-		hobbies.add(new Hobby("cycling"));
-		hobbies.add(new Hobby("reading"));
-		currentUser.setHobbies(hobbies);
+		// currentUser = users.get(0);
+		// ArrayList<Hobby> hobbies = new ArrayList<>();
+		// hobbies.add(new Hobby("programming"));
+		// hobbies.add(new Hobby("gaming"));
+		// hobbies.add(new Hobby("cycling"));
+		// hobbies.add(new Hobby("reading"));
+		// currentUser.setHobbies(hobbies);
 
 		db.initConnection();
+		db.loadUsers();
+		System.out.println(users.get(0).getName());
+		users.get(0).printFriendList();
+		System.out.println(users.get(1).getName());
+		users.get(1).printFriendList();
 
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new LoginPage());
@@ -69,6 +75,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		new Main();
+		new SocialMedia();
 	}
 }
