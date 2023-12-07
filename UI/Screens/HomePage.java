@@ -1,6 +1,7 @@
 package UI.Screens;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
@@ -27,13 +28,16 @@ public class HomePage extends BasePage {
     private void loadUserPosts() {
         User user = SocialMedia.getCurrentUser();
         if (user != null) {
-            // if (posts != null) {
-            //     container.setPreferredSize(new Dimension(1280, (posts.size() + 1) * (200 + 10)));
-
-            //     for (int i = 0; i < posts.size(); i++) {
-            //         container.add(new PostTemplate(posts.get(i), i));
-            //     }
-            // }
+            container.setPreferredSize(new Dimension(1280, 0));
+            for (User friend : user.getFriends()) {
+                ArrayList<Post> posts = friend.getPosts();
+                container.setPreferredSize(
+                    new Dimension(1280, container.getHeight() + ((posts.size() + 1) * (200 + 10)))
+                );
+                for (int i = 0; i < posts.size(); i++) {
+                    container.add(new PostTemplate(posts.get(i), i));
+                }
+            }
         }
     }
 

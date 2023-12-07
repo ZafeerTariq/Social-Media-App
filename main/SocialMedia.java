@@ -37,9 +37,6 @@ public class SocialMedia {
 		db.loadUsers();
 		db.loadPosts();
 
-		users.get(0).printPosts();
-		users.get(1).printPosts();
-
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new LoginPage());
 		});

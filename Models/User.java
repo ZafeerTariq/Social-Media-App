@@ -38,6 +38,14 @@ public class User extends Object {
 		posts.add(post);
 	}
 
+	public ArrayList<Post> getPosts() {
+		return posts;
+	}
+
+	public ArrayList<User> getFriends() {
+		return friends;
+	}
+
 	public void printPosts() {
 		for (int i = 0; i < posts.size(); i++) {
 			System.out.println(posts.get(i).getText());
