@@ -43,6 +43,7 @@ public class HomePage extends BasePage {
         pageHeading = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         settingsButton = new javax.swing.JButton();
+        addPostButton = new javax.swing.JButton();
 
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new java.awt.Dimension(1270, 720));
@@ -61,32 +62,46 @@ public class HomePage extends BasePage {
             }
         });
 
+        addPostButton.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        addPostButton.setText("Add Post");
+        addPostButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPostButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
                         .addComponent(pageHeading)
-                        .addGap(961, 961, 961)
-                        .addComponent(settingsButton))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 1241, Short.MAX_VALUE))
+                        .addGap(829, 829, 829)
+                        .addComponent(addPostButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(containerLayout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(1590, Short.MAX_VALUE))))
         );
         containerLayout.setVerticalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pageHeading)
                     .addGroup(containerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pageHeading))
-                    .addGroup(containerLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(settingsButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(14, 14, 14)
+                        .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(addPostButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(695, Short.MAX_VALUE))
+                .addContainerGap(1037, Short.MAX_VALUE))
         );
 
         scrollPane.setViewportView(container);
@@ -116,11 +131,17 @@ public class HomePage extends BasePage {
         SocialMedia.states.changeState(new SettingsPage());
     }
 
+    private void addPostButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        SocialMedia.states.changeState(new AddPostPage());
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JPanel container;
     private javax.swing.JLabel pageHeading;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JButton settingsButton;
+    private javax.swing.JButton addPostButton;
     // End of variables declaration
 }

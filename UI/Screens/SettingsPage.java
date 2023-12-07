@@ -100,7 +100,7 @@ public class SettingsPage extends BasePage {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 		System.out.println("Back Button Pressed");
-		SocialMedia.states.changeState(new HomePage(null));
+		SocialMedia.states.changeState(new HomePage());
 	}
 
     private void changeThemeButtonActionPerformed(java.awt.event.ActionEvent evt) {

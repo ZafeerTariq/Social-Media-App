@@ -62,7 +62,7 @@ public class SocialMedia {
 		users.get(1).printFriendList();
 
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new LoginPage());
+			states.changeState(new HomePage());
 		});
 	}
 
