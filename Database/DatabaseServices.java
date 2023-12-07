@@ -93,4 +93,26 @@ public class DatabaseServices {
         }
         return false;
     }
+
+    public User authenticate(String email, String password) {
+        String query = "SELECT * FROM [User] WHERE email = (?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String pass = resultSet.getString("password");
+                    int id = resultSet.getInt("userID");
+                    if (pass.equals(password)) {
+                        return SocialMedia.searchUserByID(id);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

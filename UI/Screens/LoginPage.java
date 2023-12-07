@@ -1,11 +1,12 @@
 package UI.Screens;
 
-import main.SocialMedia;
+import Models.User;
 import main.SocialMedia;
 
 public class LoginPage extends BasePage {
     public LoginPage() {
         initComponents();
+        errorLabel.setVisible(false);
     }
 
     private void initComponents() {
@@ -17,6 +18,11 @@ public class LoginPage extends BasePage {
         loginButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         registerButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+        setSize(new java.awt.Dimension(1280, 720));
 
         pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
         pageHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -63,14 +69,25 @@ public class LoginPage extends BasePage {
             }
         });
 
+        errorLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(153, 0, 51));
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        errorLabel.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(571, 571, 571)
-                .addComponent(pageHeading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pageHeading, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addGap(571, 571, 571))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(482, 482, 482)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(registerButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(437, 437, 437)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -81,15 +98,11 @@ public class LoginPage extends BasePage {
                     .addComponent(emailTextField)
                     .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(482, 482, 482)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(registerButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -111,14 +124,16 @@ public class LoginPage extends BasePage {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(registerButton))
-                .addGap(218, 218, 218))
+                .addGap(61, 61, 61)
+                .addComponent(errorLabel)
+                .addGap(141, 141, 141))
         );
 
         pack();
     }// </editor-fold>
 
     private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+            // TODO add your handling code here:
     }
 
     private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,8 +141,25 @@ public class LoginPage extends BasePage {
     }
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        // Main.states.changeState(new HomePage());
+        String email = emailTextField.getText();
+        String password = passwordTextField.getText();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            errorLabel.setText("Please Enter Both Fields");
+            return;
+        }
+
+        User user = SocialMedia.db.authenticate(email, password);
+        if (user != null) {
+            errorLabel.setText("Login Successful");
+            errorLabel.setVisible(true);
+            SocialMedia.setCurrentUser(user);
+            SocialMedia.states.changeState(new HomePage());
+        }
+        else {
+            errorLabel.setText("E-mail or Password Incorrect");
+            errorLabel.setVisible(true);
+        }
     }
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,5 +176,6 @@ public class LoginPage extends BasePage {
     private javax.swing.JLabel pageHeading;
     private javax.swing.JTextField passwordTextField;
     private javax.swing.JButton registerButton;
+    private javax.swing.JLabel errorLabel;
     // End of variables declaration
 }

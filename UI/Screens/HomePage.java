@@ -1,26 +1,20 @@
 package UI.Screens;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 import Models.Post;
+import Models.User;
 import UI.Templates.PostTemplate;
 import main.SocialMedia;
 
 public class HomePage extends BasePage {
-    public HomePage(ArrayList<Post> posts) {
+    public HomePage() {
         initComponents();
 
-        if (posts != null) {
-            container.setPreferredSize(new Dimension(1280, (posts.size() + 1) * (200 + 10)));
-
-            for (int i = 0; i < posts.size(); i++) {
-                container.add(new PostTemplate(posts.get(i), i));
-            }
-        }
+        loadUserPosts();
 
         //Bring the view to the start of page
         SwingUtilities.invokeLater(new Runnable() {
@@ -28,6 +22,19 @@ public class HomePage extends BasePage {
                 scrollPane.getViewport().setViewPosition(new Point(0, 0));
             }
         });
+    }
+
+    private void loadUserPosts() {
+        User user = SocialMedia.getCurrentUser();
+        if (user != null) {
+            // if (posts != null) {
+            //     container.setPreferredSize(new Dimension(1280, (posts.size() + 1) * (200 + 10)));
+
+            //     for (int i = 0; i < posts.size(); i++) {
+            //         container.add(new PostTemplate(posts.get(i), i));
+            //     }
+            // }
+        }
     }
 
     private void initComponents() {

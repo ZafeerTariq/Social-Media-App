@@ -13,19 +13,11 @@ public class SocialMedia {
 	public static State states = new State();
 	public static DatabaseServices db = new DatabaseServices();
 
-	public static User searchUserByID(int id) {
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getUserID() == id)
-				return users.get(i);
-		}
-		return null;
-	}
-
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Page> pages = new ArrayList<>();
 	public static ArrayList<Post> posts = new ArrayList<>();
 
-	public static User currentUser;
+	private static User currentUser;
 
 
 	private void createPages() {
@@ -72,6 +64,22 @@ public class SocialMedia {
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new LoginPage());
 		});
+	}
+
+	public static User searchUserByID(int id) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getUserID() == id)
+				return users.get(i);
+		}
+		return null;
+	}
+
+	public static void setCurrentUser(User user) {
+		currentUser = user;
+	}
+
+	public static User getCurrentUser() {
+		return currentUser;
 	}
 
 	public static void main(String[] args) {

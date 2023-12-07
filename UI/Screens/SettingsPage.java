@@ -5,7 +5,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import main.SocialMedia;
-import main.SocialMedia;
 
 public class SettingsPage extends BasePage {
     public SettingsPage() {

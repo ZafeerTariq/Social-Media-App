@@ -1,7 +1,6 @@
 package UI.Screens;
 
 import main.SocialMedia;
-import main.SocialMedia;
 
 public class RegistrationPage extends BasePage {
     public RegistrationPage() {

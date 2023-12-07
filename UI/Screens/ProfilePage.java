@@ -13,7 +13,6 @@ import Models.Hobby;
 import Models.User;
 import UI.Templates.UserButton;
 import main.SocialMedia;
-import main.SocialMedia;
 
 public class ProfilePage extends BasePage {
 	private User user;
