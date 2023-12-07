@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import Database.DatabaseServices;
 import Models.*;
+import Models.Object;
 import UI.Screens.*;
 import Util.State;
 
@@ -18,28 +19,6 @@ public class SocialMedia {
 	public static ArrayList<Post> posts = new ArrayList<>();
 
 	private static User currentUser;
-
-
-	private void createPages() {
-		pages.add(new Page("FCBarcelona"));
-		pages.add(new Page("Linkin Park"));
-		pages.add(new Page("Audioslave"));
-		pages.add(new Page("Assassin's Creed"));
-		pages.add(new Page("System Of A Down"));
-	}
-
-	private void createPosts() {
-		posts.add(new Post("The GOAT Neymar!", pages.get(0)));
-		posts.add(new Post("Chester Bennington we miss you", pages.get(1)));
-		posts.add(new Post("Zafeer is my father", users.get(3)));
-		posts.add(new Post("Bass good", pages.get(4)));
-		posts.add(new Post("AC Mirage out now", pages.get(3)));
-		posts.add(new Post("The GOAT Neymar", pages.get(0)));
-		posts.add(new Post("The GOAT Neymar", pages.get(0)));
-		posts.add(new Post("The GOAT Neymar", pages.get(0)));
-		posts.add(new Post("The GOAT Neymar", pages.get(0)));
-		posts.add(new Post("The GOAT Neymar", pages.get(0)));
-	}
 
 	private SocialMedia() {
 		// createUsers();
@@ -56,24 +35,31 @@ public class SocialMedia {
 
 		db.initConnection();
 		db.loadUsers();
-		System.out.println(users.get(0).getName());
-		users.get(0).printFriendList();
-		System.out.println(users.get(1).getName());
-		users.get(1).printFriendList();
 
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new HomePage());
+			states.changeState(new LoginPage());
 		});
 	}
 
-	public static User searchUserByID(int id) {
+	public static User searchUserByID(String id) {
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getUserID() == id)
+			if (users.get(i).getID().equals(id))
 				return users.get(i);
 		}
 		return null;
 	}
 
+	public static Object searchObjectByID(String id) {
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getID().equals(id))
+				return users.get(i);
+		}
+		for (int i = 0; i < pages.size(); i++) {
+			if (pages.get(i).getID().equals(id))
+				return pages.get(i);
+		}
+		return null;
+	}
 	public static void setCurrentUser(User user) {
 		currentUser = user;
 	}

@@ -6,8 +6,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+import Models.Post;
 import Models.User;
+import Models.Object;
 import main.SocialMedia;
 
 public class DatabaseServices {
@@ -60,8 +63,16 @@ public class DatabaseServices {
                 int id1 = resultSet.getInt("userID1");
                 int id2 = resultSet.getInt("userID2");
 
-                SocialMedia.searchUserByID(id1).addFriend(SocialMedia.searchUserByID(id2));
-                SocialMedia.searchUserByID(id2).addFriend(SocialMedia.searchUserByID(id1));
+                SocialMedia.searchUserByID(
+                    "u" + Integer.toString(id1)
+                ).addFriend(
+                    SocialMedia.searchUserByID("u" + Integer.toString(id2))
+                );
+                SocialMedia.searchUserByID(
+                    "u" + Integer.toString(id2)
+                ).addFriend(
+                    SocialMedia.searchUserByID("u" + Integer.toString(id1))
+                );
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -104,7 +115,7 @@ public class DatabaseServices {
                     String pass = resultSet.getString("password");
                     int id = resultSet.getInt("userID");
                     if (pass.equals(password)) {
-                        return SocialMedia.searchUserByID(id);
+                        return SocialMedia.searchUserByID("u" + Integer.toString(id));
                     }
                 }
             } catch (SQLException e) {
@@ -114,5 +125,46 @@ public class DatabaseServices {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean addPost(String objId, String text) {
+        Object poster = SocialMedia.searchObjectByID(objId);
+
+        LocalDate currentDate = LocalDate.now();
+        Date date = Date.valueOf(currentDate);
+        Post post = new Post(text, poster, date);
+
+        String query = "";
+        if (objId.charAt(0) == 'u') {
+            //user posted
+            query = "INSERT INTO Post (postDate, userID, postText) "
+                    + "VALUES (?, ?, ?);";
+        }
+        else if (objId.charAt(0) == 'p') {
+            //page posted
+            query = "INSERT INTO Post (postDate, pageID, postText) "
+                    + "VALUES (?, ?, ?);";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            int id = Integer.parseInt(objId.substring(1));
+
+            statement.setDate(1, date);
+            statement.setInt(2, id);
+            statement.setString(3, text);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("User inserted successfully");
+                SocialMedia.posts.add(post);
+                return true;
+            } else {
+                System.out.println("Failed to insert user");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

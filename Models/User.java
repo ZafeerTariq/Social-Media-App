@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class User extends Object {
-	private int userID;
 	private String username;
 	private String firstName;
 	private String lastName;
@@ -16,7 +15,7 @@ public class User extends Object {
 	private ArrayList<User> friends;
 
 	public User(int id, String username, String fName, String lName, String bio, String phone, Date dob, String city) {
-		this.userID = id;
+		this.id = "u" + Integer.toString(id);
 		this.username = username;
 		this.firstName = fName;
 		this.lastName = lName;
@@ -43,8 +42,9 @@ public class User extends Object {
 		return firstName + ' ' + lastName;
 	}
 
-	public int getUserID() {
-		return userID;
+	@Override
+	public String getID() {
+		return id;
 	}
 
 	public ArrayList<Hobby> getHobbies() {

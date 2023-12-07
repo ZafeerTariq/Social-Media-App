@@ -9,9 +9,11 @@ public class Post {
 	private Date postDate;
 	private ArrayList<Object> likedBy;
 
-	public Post(String text, Object owner) {
+	public Post(String text, Object poster, Date posted) {
 		this.text = text;
-		this.sharedBy = owner;
+		this.sharedBy = poster;
+		this.likedBy = new ArrayList<>();
+		this.postDate = posted;
 	}
 
 	public Object getSharedBy() {

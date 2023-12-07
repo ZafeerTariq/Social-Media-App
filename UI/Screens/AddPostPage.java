@@ -9,6 +9,7 @@ import main.SocialMedia;
 public class AddPostPage extends BasePage {
     public AddPostPage() {
         initComponents();
+		errorLabel.setVisible(false);;
     }
 
     private void initComponents() {
@@ -17,6 +18,9 @@ public class AddPostPage extends BasePage {
         jScrollPane1 = new javax.swing.JScrollPane();
         postTextArea = new javax.swing.JTextArea();
         postButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
         pageHeading.setText("Add Post");
@@ -46,6 +50,11 @@ public class AddPostPage extends BasePage {
             }
         });
 
+        errorLabel.setFont(new java.awt.Font("Comic Sans MS", 1, 18)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(204, 0, 51));
+        errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        errorLabel.setText("Error");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -64,7 +73,10 @@ public class AddPostPage extends BasePage {
                         .addGap(344, 344, 344))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(postButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(530, 530, 530))))
+                        .addGap(530, 530, 530))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(434, 434, 434))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,19 +92,34 @@ public class AddPostPage extends BasePage {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(postButton)
-                .addContainerGap(294, Short.MAX_VALUE))
+                .addGap(72, 72, 72)
+                .addComponent(errorLabel)
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
 		SocialMedia.states.changeState(new HomePage());
 	}
 
     private void postButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+		String postText = postTextArea.getText();
+        if (postText.isEmpty()) {
+			errorLabel.setText("Post content cannot be empty");
+			errorLabel.setVisible(true);
+		}
+		else {
+			if (SocialMedia.db.addPost(SocialMedia.getCurrentUser().getID(), postText)) {
+				errorLabel.setText("Posted Successfully");
+				errorLabel.setVisible(true);
+			}
+			else {
+				errorLabel.setText("Could not post due to an error");
+				errorLabel.setVisible(true);
+			}
+		}
 	}
 
 	// Variables declaration - do not modify
@@ -101,5 +128,6 @@ public class AddPostPage extends BasePage {
     private javax.swing.JLabel pageHeading;
     private javax.swing.JButton postButton;
     private javax.swing.JTextArea postTextArea;
+	private javax.swing.JLabel errorLabel;
     // End of variables declaration
 }

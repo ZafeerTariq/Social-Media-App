@@ -7,13 +7,14 @@ import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
 import Models.Object;
+import main.SocialMedia;
 
 public class UserButton extends JLabel {
-	private Object user;
+	private Object poster;
 
-	public UserButton(Object u) {
-		this.user = u;
-		setText(user.getName());
+	public UserButton(Object obj) {
+		this.poster = SocialMedia.searchObjectByID(obj.getID());
+		setText(poster.getName());
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addMouseListener(new MouseAdapter() {
             @Override
