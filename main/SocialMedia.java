@@ -35,6 +35,10 @@ public class SocialMedia {
 
 		db.initConnection();
 		db.loadUsers();
+		db.loadPosts();
+
+		users.get(0).printPosts();
+		users.get(1).printPosts();
 
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new LoginPage());
@@ -60,6 +64,7 @@ public class SocialMedia {
 		}
 		return null;
 	}
+
 	public static void setCurrentUser(User user) {
 		currentUser = user;
 	}

@@ -79,6 +79,35 @@ public class DatabaseServices {
         }
     }
 
+    public void loadPosts() {
+        String query = "SELECT * FROM Post";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("postID");
+                Date posted = resultSet.getDate("postDate");
+                String text = resultSet.getString("postText");
+                int objId = resultSet.getInt("pageID");
+
+                String objectID;
+                if (resultSet.wasNull()) {
+                    // if pageid is null then post must be made by a user
+                    objId = resultSet.getInt("userID");
+                    objectID = "u" + Integer.toString(objId);
+                }
+                else {
+                    objectID = "p" + Integer.toString(objId);
+                }
+
+                Object poster = SocialMedia.searchObjectByID(objectID);
+                Post post = new Post(text, poster, posted);
+                poster.addPost(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean addUser(String fname, String lname, String email, String password, String contact, Date dob) {
         String query = "INSERT INTO \"User\" "
         + "(first_name, last_name, email, password, contact, dob) "

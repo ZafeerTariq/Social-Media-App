@@ -13,6 +13,7 @@ public class User extends Object {
 	private String city;
 	private ArrayList<Hobby> hobbies;
 	private ArrayList<User> friends;
+	private ArrayList<Post> posts;
 
 	public User(int id, String username, String fName, String lName, String bio, String phone, Date dob, String city) {
 		this.id = "u" + Integer.toString(id);
@@ -25,10 +26,22 @@ public class User extends Object {
 		this.city = city;
 		this.hobbies = new ArrayList<>();
 		this.friends = new ArrayList<>();
+		this.posts = new ArrayList<>();
 	}
 
 	public void addFriend(User friend) {
 		friends.add(friend);
+	}
+
+	@Override
+	public void addPost(Post post) {
+		posts.add(post);
+	}
+
+	public void printPosts() {
+		for (int i = 0; i < posts.size(); i++) {
+			System.out.println(posts.get(i).getText());
+		}
 	}
 
 	public void printFriendList() {
