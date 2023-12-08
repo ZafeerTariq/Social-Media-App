@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import Models.Post;
@@ -100,7 +101,7 @@ public class DatabaseServices {
                 }
 
                 Object poster = SocialMedia.searchObjectByID(objectID);
-                Post post = new Post(text, poster, posted);
+                Post post = new Post(id, text, poster, posted);
                 poster.addPost(post);
             }
         } catch (SQLException e) {
@@ -161,7 +162,6 @@ public class DatabaseServices {
 
         LocalDate currentDate = LocalDate.now();
         Date date = Date.valueOf(currentDate);
-        Post post = new Post(text, poster, date);
 
         String query = "";
         if (objId.charAt(0) == 'u') {
@@ -175,7 +175,7 @@ public class DatabaseServices {
                     + "VALUES (?, ?, ?);";
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             int id = Integer.parseInt(objId.substring(1));
 
             statement.setDate(1, date);
@@ -185,8 +185,14 @@ public class DatabaseServices {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("User inserted successfully");
-                SocialMedia.posts.add(post);
+                System.out.println("Posted successfully");
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    System.out.println(generatedId);
+                    Post post = new Post(generatedId, text, poster, date);
+                    SocialMedia.posts.add(post);
+                }
                 return true;
             } else {
                 System.out.println("Failed to insert user");
@@ -195,5 +201,27 @@ public class DatabaseServices {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void likePost(User user, Post post) {
+        String query = "INSERT INTO [Like] (postID, userID) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            int uid = Integer.parseInt(user.getID().substring(1));
+
+            statement.setInt(1, post.getID());
+            statement.setInt(2, uid);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Post liked");
+                post.addLike(user);
+            }
+            else {
+                System.out.println("Could not like post");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

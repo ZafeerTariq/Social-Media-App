@@ -3,6 +3,8 @@ package Models;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import main.SocialMedia;
+
 public class User extends Object {
 	private String username;
 	private String firstName;
@@ -36,6 +38,10 @@ public class User extends Object {
 	@Override
 	public void addPost(Post post) {
 		posts.add(post);
+	}
+
+	public void likePost(Post post) {
+		SocialMedia.db.likePost(this, post);
 	}
 
 	public ArrayList<Post> getPosts() {
