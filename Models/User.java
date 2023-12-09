@@ -56,6 +56,17 @@ public class User extends Object {
 		return friends.contains(user);
 	}
 
+	public void updateData(String fname, String lname, String phone,
+		String username, String city, String bio, ArrayList<Hobby> hobbies) {
+
+			this.firstName = fname;
+			this.lastName = lname;
+			this.phoneNumber = phone;
+			this.username = username;
+			this.city = city;
+			this.hobbies = hobbies;
+	}
+
 	public ArrayList<Post> getPosts() {
 		return posts;
 	}
@@ -92,6 +103,22 @@ public class User extends Object {
 	@Override
 	public String getID() {
 		return id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getPhone() {
+		return phoneNumber;
+	}
+
+	public String getUsername() {
+		return username;
 	}
 
 	public ArrayList<Hobby> getHobbies() {

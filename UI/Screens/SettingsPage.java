@@ -120,8 +120,7 @@ public class SettingsPage extends BasePage {
 	}
 
     private void editProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-		System.out.println("Edit Profile Button Pressed");
+        SocialMedia.states.changeState(new EditProfilePage());
     }
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {

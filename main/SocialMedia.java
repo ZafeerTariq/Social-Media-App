@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.*;
 
@@ -18,31 +17,21 @@ public class SocialMedia {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<Page> pages = new ArrayList<>();
 	public static ArrayList<Post> posts = new ArrayList<>();
+	public static ArrayList<Hobby> hobbies = new ArrayList<>();
 
 	private static User currentUser;
 
 	private SocialMedia() {
-		// createUsers();
-		// createPages();
-		// createPosts();
-
-		// currentUser = users.get(0);
-		// ArrayList<Hobby> hobbies = new ArrayList<>();
-		// hobbies.add(new Hobby("programming"));
-		// hobbies.add(new Hobby("gaming"));
-		// hobbies.add(new Hobby("cycling"));
-		// hobbies.add(new Hobby("reading"));
-		// currentUser.setHobbies(hobbies);
-
 		db.initConnection();
 		db.loadUsers();
 		db.loadPosts();
 		db.loadLikes();
 		db.loadComments();
+		db.loadHobbies();
 
 		currentUser = users.get(0);
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new LoginPage());
+			states.changeState(new HomePage());
 		});
 	}
 

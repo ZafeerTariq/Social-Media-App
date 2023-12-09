@@ -8,10 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import Models.Post;
 import Models.User;
 import Models.Comment;
+import Models.Hobby;
 import Models.Object;
 import Models.Page;
 import main.SocialMedia;
@@ -146,6 +148,22 @@ public class DatabaseServices {
                 Comment comment = new Comment(id, text, user, date);
                 Post post = SocialMedia.searchPostByID(postID);
                 post.addComment(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadHobbies() {
+        String query = "SELECT * FROM Hobby";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("hobbyID");
+                String name = resultSet.getString("hobbyName");
+
+                Hobby hobby = new Hobby(id, name);
+                SocialMedia.hobbies.add(hobby);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -342,6 +360,66 @@ public class DatabaseServices {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updateUserData(User user, String fname, String lname, String phone,
+        String username, String city, String bio, ArrayList<Hobby> hobbies) {
+
+        String query = "UPDATE [User] SET first_name = ?, last_name = ?, contact = ?, "
+                    + "city = ?, username = ?, bio = ? WHERE userID = ?";
+
+        int userid = Integer.parseInt(user.getID().substring(1));
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, fname);
+            statement.setString(2, lname);
+            statement.setString(3, phone);
+            statement.setString(4, city);
+            statement.setString(5, username);
+            statement.setString(6, bio);
+            statement.setInt(7, userid);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                user.updateData(fname, lname, phone, username, city, bio, hobbies);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < hobbies.size(); i++) {
+            try {
+                if (!userHobbyExists(userid, hobbies.get(i).getID())) {
+                    insertUserHobby(userid, hobbies.get(i).getID());
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private boolean userHobbyExists(int userId, int hobbyId) throws SQLException {
+        String query = "SELECT COUNT(*) FROM user_hobbies WHERE user_id = ? AND hobby_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, hobbyId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void insertUserHobby(int userId, int hobbyId) throws SQLException {
+        String insertQuery = "INSERT INTO user_hobbies (user_id, hobby_id) VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, hobbyId);
+            preparedStatement.executeUpdate();
         }
     }
 }
