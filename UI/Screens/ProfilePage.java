@@ -21,6 +21,10 @@ public class ProfilePage extends BasePage {
 		this.user = user;
         initComponents();
 		loadUserData();
+
+        if (user == SocialMedia.getCurrentUser() || SocialMedia.getCurrentUser().isFriend(user)) {
+            addFriendButton.setVisible(false);
+        }
     }
 
 	private void loadUserData() {
@@ -30,6 +34,7 @@ public class ProfilePage extends BasePage {
 		// bioTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nisi mattis erat ultricies, sed aliquet nibh luctus. Pellentesque elementum aliquam mauris ut faucibus. Mauris in massa malesuada, placerat tortor sit amet, congue nibh. Integer fermentum elit eu risus blandit ultricies. Cras venenatis lacus vel tellus varius placerat. Mauris vitae egestas nunc. Praesent pellentesque erat nec condimentum vestibulum. Morbi quis quam massa. Vivamus pellentesque ut enim sit amet condimentum. Nullam porttitor sem sit amet ligula lacinia, eu egestas elit facilisis.");
         bioTextArea.setText(user.getBio());
 
+        city.setText(user.getCity());
 		loadFriends();
 		loadHobbies();
 	}
@@ -65,7 +70,7 @@ public class ProfilePage extends BasePage {
 		}
 	}
 
-	private void initComponents() {
+    private void initComponents() {
         profilePic = new javax.swing.JPanel();
         username = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
@@ -77,6 +82,7 @@ public class ProfilePage extends BasePage {
         jScrollPane1 = new javax.swing.JScrollPane();
         bioTextArea = new javax.swing.JTextArea();
         homeButton = new javax.swing.JButton();
+        addFriendButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -151,6 +157,14 @@ public class ProfilePage extends BasePage {
             }
         });
 
+        addFriendButton.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        addFriendButton.setText("Add Friend");
+        addFriendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFriendButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -174,6 +188,8 @@ public class ProfilePage extends BasePage {
                         .addGap(91, 91, 91))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addFriendButton)
+                .addGap(18, 18, 18)
                 .addComponent(homeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -188,7 +204,9 @@ public class ProfilePage extends BasePage {
                         .addComponent(city))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(homeButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(homeButton)
+                            .addComponent(addFriendButton))
                         .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(profilePic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,6 +227,11 @@ public class ProfilePage extends BasePage {
         SocialMedia.states.changeState(new HomePage());
     }
 
+    private void addFriendButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        SocialMedia.db.addFriend(SocialMedia.getCurrentUser(), user);
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JPanel MiscContainer;
     private javax.swing.JTextArea bioTextArea;
@@ -221,5 +244,6 @@ public class ProfilePage extends BasePage {
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JLabel username;
 	private javax.swing.JButton homeButton;
+    private javax.swing.JButton addFriendButton;
     // End of variables declaration
 }

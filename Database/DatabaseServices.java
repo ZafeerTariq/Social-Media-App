@@ -279,6 +279,28 @@ public class DatabaseServices {
         return false;
     }
 
+    public boolean addFriend(User u1, User u2) {
+        String query = "INSERT INTO Friendship (userID1, userID2) VALUES (?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            int userid1 = Integer.parseInt(u1.getID().substring(1));
+            int userid2 = Integer.parseInt(u2.getID().substring(1));
+
+            statement.setInt(1, userid1);
+            statement.setInt(1, userid2);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                u1.addFriend(u2);
+                u2.addFriend(u1);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public User authenticate(String email, String password) {
         String query = "SELECT * FROM [User] WHERE email = (?)";
 

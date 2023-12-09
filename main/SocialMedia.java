@@ -40,21 +40,9 @@ public class SocialMedia {
 		db.loadLikes();
 		db.loadComments();
 
-		posts.get(0).addComment(new Comment(2, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(3, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(4, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(5, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(6, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(7, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(8, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(9, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(10, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(11, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
-		posts.get(0).addComment(new Comment(12, "new comment 12", users.get(1), new java.sql.Date(2023, 12, 9)));
-
 		currentUser = users.get(0);
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new HomePage());
+			states.changeState(new LoginPage());
 		});
 	}
 

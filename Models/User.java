@@ -52,6 +52,10 @@ public class User extends Object {
 		SocialMedia.db.addPage(this, pageName);
 	}
 
+	public boolean isFriend(User user) {
+		return friends.contains(user);
+	}
+
 	public ArrayList<Post> getPosts() {
 		return posts;
 	}
@@ -62,6 +66,10 @@ public class User extends Object {
 
 	public String getBio() {
 		return bio;
+	}
+
+	public String getCity() {
+		return city;
 	}
 
 	public void printPosts() {
