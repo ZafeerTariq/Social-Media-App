@@ -37,6 +37,7 @@ public class SocialMedia {
 		db.initConnection();
 		db.loadUsers();
 		db.loadPosts();
+		db.loadLikes();
 		db.loadComments();
 
 		posts.get(0).addComment(new Comment(2, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));

@@ -1,11 +1,9 @@
 package UI.Screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

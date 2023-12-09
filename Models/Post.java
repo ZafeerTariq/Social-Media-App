@@ -28,6 +28,10 @@ public class Post {
 		comments.add(comment);
 	}
 
+	public ArrayList<Object> getLikes() {
+		return likedBy;
+	}
+
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}

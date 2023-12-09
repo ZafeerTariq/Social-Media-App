@@ -12,13 +12,17 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import Models.Post;
+import Models.Object;
 import UI.Screens.ViewPostPage;
 import main.SocialMedia;
 
 public class PostTemplate extends JPanel {
 	private Post post;
+	private boolean isLiked;
+
 	private JLabel username;
 	private JTextArea postText;
+
 	private int width = 550;
 	private int height = 200;
 	private int y = 150;
@@ -26,6 +30,9 @@ public class PostTemplate extends JPanel {
 	public PostTemplate(Post post, int n) {
 		this.post = post;
 		String text = this.post.getText();
+
+		isLiked = checkLiked();
+		System.out.println(isLiked);
 
 		username = new UserButton(this.post.getSharedBy());
 		postText = new JTextArea();
@@ -41,7 +48,7 @@ public class PostTemplate extends JPanel {
         usernamePanel.add(username);
 
 		JButton likeButton = new JButton();
-		likeButton.setText("Like");
+		likeButton.setText(isLiked ? "Liked" : "Like");
 		likeButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				likeButtonActionPerformed(evt);
@@ -68,9 +75,20 @@ public class PostTemplate extends JPanel {
 		setBorder(new LineBorder(Color.BLACK, 2));
 	}
 
+	private boolean checkLiked() {
+		for (Object user : post.getLikes()) {
+			System.out.println(user.getID());
+			System.out.println(SocialMedia.getCurrentUser().getID());
+			if (user.getID().equals(SocialMedia.getCurrentUser().getID()))
+				return true;
+		}
+		return false;
+	}
+
 	private void likeButtonActionPerformed(ActionEvent evt) {
 		System.out.println("like button pressed");
-		SocialMedia.getCurrentUser().likePost(post);
+		if (!isLiked)
+			SocialMedia.getCurrentUser().likePost(post);
 	}
 
 	private void commentButtonActionPerformed(ActionEvent evt) {

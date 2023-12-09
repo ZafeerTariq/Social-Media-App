@@ -111,6 +111,23 @@ public class DatabaseServices {
         }
     }
 
+    public void loadLikes() {
+        String query = "SELECT * FROM [Like]";
+
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int postID = resultSet.getInt("postID");
+                int userID = resultSet.getInt("userID");
+
+                String uid = "u" + Integer.toString(userID);
+                SocialMedia.searchPostByID(postID).addLike(SocialMedia.searchUserByID(uid));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadComments() {
         String query = "SELECT * FROM Comment";
         try (PreparedStatement statement = connection.prepareStatement(query);
