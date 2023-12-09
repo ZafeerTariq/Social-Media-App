@@ -168,6 +168,21 @@ public class DatabaseServices {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        query = "SELECT * FROM User_Hobbies";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("hobby_id");
+                int userid = resultSet.getInt("user_id");
+
+                SocialMedia.searchUserByID("u" + Integer.toString(userid)).addHobby(
+                    SocialMedia.searchHobbyByID(id)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean addUser(String fname, String lname, String email, String password, String contact, Date dob) {

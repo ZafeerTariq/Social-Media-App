@@ -40,6 +40,10 @@ public class User extends Object {
 		posts.add(post);
 	}
 
+	public void addHobby(Hobby hobby) {
+		hobbies.add(hobby);
+	}
+
 	public void likePost(Post post) {
 		SocialMedia.db.likePost(this, post);
 	}

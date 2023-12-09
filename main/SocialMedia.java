@@ -63,6 +63,14 @@ public class SocialMedia {
 		return null;
 	}
 
+	public static Hobby searchHobbyByID(int id) {
+		for (int i = 0; i < hobbies.size(); i++) {
+			if (hobbies.get(i).getID() == id)
+				return hobbies.get(i);
+		}
+		return null;
+	}
+
 	public static void setCurrentUser(User user) {
 		currentUser = user;
 	}
