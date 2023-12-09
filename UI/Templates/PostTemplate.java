@@ -32,7 +32,6 @@ public class PostTemplate extends JPanel {
 		String text = this.post.getText();
 
 		isLiked = checkLiked();
-		System.out.println(isLiked);
 
 		username = new UserButton(this.post.getSharedBy());
 		postText = new JTextArea();

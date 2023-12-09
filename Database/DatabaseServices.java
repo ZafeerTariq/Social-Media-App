@@ -210,7 +210,6 @@ public class DatabaseServices {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int generatedId = generatedKeys.getInt(1);
-                    System.out.println(generatedId);
                     Post post = new Post(generatedId, text, poster, date);
                     SocialMedia.posts.add(post);
                 }
@@ -243,7 +242,6 @@ public class DatabaseServices {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int generatedId = generatedKeys.getInt(1);
-                    System.out.println(generatedId);
                     Comment comment = new Comment(generatedId, text, user, date);
                     post.addComment(comment);
                     return true;

@@ -60,6 +60,10 @@ public class User extends Object {
 		return friends;
 	}
 
+	public String getBio() {
+		return bio;
+	}
+
 	public void printPosts() {
 		for (int i = 0; i < posts.size(); i++) {
 			System.out.println(posts.get(i).getText());

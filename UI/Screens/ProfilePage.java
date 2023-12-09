@@ -27,7 +27,8 @@ public class ProfilePage extends BasePage {
 		username.setText(user.getName());
 		bioTextArea.setLineWrap(true);
 		bioTextArea.setWrapStyleWord(true);
-		bioTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nisi mattis erat ultricies, sed aliquet nibh luctus. Pellentesque elementum aliquam mauris ut faucibus. Mauris in massa malesuada, placerat tortor sit amet, congue nibh. Integer fermentum elit eu risus blandit ultricies. Cras venenatis lacus vel tellus varius placerat. Mauris vitae egestas nunc. Praesent pellentesque erat nec condimentum vestibulum. Morbi quis quam massa. Vivamus pellentesque ut enim sit amet condimentum. Nullam porttitor sem sit amet ligula lacinia, eu egestas elit facilisis.");
+		// bioTextArea.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc aliquam nisi mattis erat ultricies, sed aliquet nibh luctus. Pellentesque elementum aliquam mauris ut faucibus. Mauris in massa malesuada, placerat tortor sit amet, congue nibh. Integer fermentum elit eu risus blandit ultricies. Cras venenatis lacus vel tellus varius placerat. Mauris vitae egestas nunc. Praesent pellentesque erat nec condimentum vestibulum. Morbi quis quam massa. Vivamus pellentesque ut enim sit amet condimentum. Nullam porttitor sem sit amet ligula lacinia, eu egestas elit facilisis.");
+        bioTextArea.setText(user.getBio());
 
 		loadFriends();
 		loadHobbies();
@@ -40,9 +41,9 @@ public class ProfilePage extends BasePage {
 		JPanel leftAligned = new JPanel();
 		leftAligned.setLayout(new BoxLayout(leftAligned, BoxLayout.Y_AXIS));
 
-		for (int i = 1; i < SocialMedia.users.size(); i++) {
+		for (int i = 1; i < user.getFriends().size(); i++) {
 			leftAligned.add(new JLabel(" "));
-			leftAligned.add(new UserButton(SocialMedia.users.get(i)));
+			leftAligned.add(new UserButton(user.getFriends().get(i)));
 		}
 
 		friendsContainer.add(leftAligned);
@@ -65,7 +66,6 @@ public class ProfilePage extends BasePage {
 	}
 
 	private void initComponents() {
-
         profilePic = new javax.swing.JPanel();
         username = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
@@ -203,11 +203,10 @@ public class ProfilePage extends BasePage {
         );
 
         pack();
-    }// </editor-fold>
+    }
 
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-		System.out.println("home button clicked");
+        SocialMedia.states.changeState(new HomePage());
     }
 
     // Variables declaration - do not modify

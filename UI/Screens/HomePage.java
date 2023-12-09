@@ -48,9 +48,12 @@ public class HomePage extends BasePage {
         jSeparator1 = new javax.swing.JSeparator();
         settingsButton = new javax.swing.JButton();
         addPostButton = new javax.swing.JButton();
+        gotoProfileButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setPreferredSize(new java.awt.Dimension(1270, 720));
+        scrollPane.setPreferredSize(new java.awt.Dimension(1280, 720));
 
         pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
         pageHeading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -74,6 +77,14 @@ public class HomePage extends BasePage {
             }
         });
 
+        gotoProfileButton.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        gotoProfileButton.setText("Profile");
+        gotoProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gotoProfileButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
@@ -83,7 +94,9 @@ public class HomePage extends BasePage {
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
                         .addComponent(pageHeading)
-                        .addGap(829, 829, 829)
+                        .addGap(721, 721, 721)
+                        .addComponent(gotoProfileButton)
+                        .addGap(18, 18, 18)
                         .addComponent(addPostButton)
                         .addGap(18, 18, 18)
                         .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -102,7 +115,9 @@ public class HomePage extends BasePage {
                         .addGap(14, 14, 14)
                         .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(addPostButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(addPostButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(gotoProfileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(1037, Short.MAX_VALUE))
@@ -127,7 +142,7 @@ public class HomePage extends BasePage {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>
+    }
 
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -140,6 +155,11 @@ public class HomePage extends BasePage {
         SocialMedia.states.changeState(new AddPostPage());
     }
 
+    private void gotoProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+        SocialMedia.states.changeState(new ProfilePage(SocialMedia.getCurrentUser()));
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JPanel container;
     private javax.swing.JLabel pageHeading;
@@ -147,5 +167,6 @@ public class HomePage extends BasePage {
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JButton settingsButton;
     private javax.swing.JButton addPostButton;
+    private javax.swing.JButton gotoProfileButton;
     // End of variables declaration
 }
