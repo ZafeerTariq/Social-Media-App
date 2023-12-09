@@ -15,12 +15,21 @@ public class Post {
 		this.id = id;
 		this.text = text;
 		this.sharedBy = poster;
-		this.likedBy = new ArrayList<>();
 		this.postDate = posted;
+		this.likedBy = new ArrayList<>();
+		this.comments = new ArrayList<>();
 	}
 
 	public void addLike(User user) {
 		likedBy.add(user);
+	}
+
+	public void addComment(Comment comment) {
+		comments.add(comment);
+	}
+
+	public ArrayList<Comment> getComments() {
+		return comments;
 	}
 
 	public Object getSharedBy() {

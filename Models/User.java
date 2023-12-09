@@ -44,6 +44,10 @@ public class User extends Object {
 		SocialMedia.db.likePost(this, post);
 	}
 
+	public void postComment(Post post, String text) {
+		SocialMedia.db.addComment(this, text, post);
+	}
+
 	public ArrayList<Post> getPosts() {
 		return posts;
 	}

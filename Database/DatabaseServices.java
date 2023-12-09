@@ -11,6 +11,7 @@ import java.time.LocalDate;
 
 import Models.Post;
 import Models.User;
+import Models.Comment;
 import Models.Object;
 import main.SocialMedia;
 
@@ -102,7 +103,31 @@ public class DatabaseServices {
 
                 Object poster = SocialMedia.searchObjectByID(objectID);
                 Post post = new Post(id, text, poster, posted);
+                SocialMedia.posts.add(post);
                 poster.addPost(post);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadComments() {
+        String query = "SELECT * FROM Comment";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("commentID");
+                int postID = resultSet.getInt("postID");
+                int userID = resultSet.getInt("userID");
+                String text = resultSet.getString("CommentContent");
+                Date date = resultSet.getDate("commentDate");
+
+                String uid = "u" + Integer.toString(userID);
+
+                User user = SocialMedia.searchUserByID(uid);
+                Comment comment = new Comment(id, text, user, date);
+                Post post = SocialMedia.searchPostByID(postID);
+                post.addComment(comment);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,28 +158,6 @@ public class DatabaseServices {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public User authenticate(String email, String password) {
-        String query = "SELECT * FROM [User] WHERE email = (?)";
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, email);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    String pass = resultSet.getString("password");
-                    int id = resultSet.getInt("userID");
-                    if (pass.equals(password)) {
-                        return SocialMedia.searchUserByID("u" + Integer.toString(id));
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public boolean addPost(String objId, String text) {
@@ -201,6 +204,59 @@ public class DatabaseServices {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean addComment(User user, String text, Post post) {
+        String query = "INSERT INTO Comment (postID, userID, CommentContent, commentDate) "
+                    + "VALUES (?, ?, ?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            int userid = Integer.parseInt(user.getID().substring(1));
+            LocalDate currentDate = LocalDate.now();
+            Date date = Date.valueOf(currentDate);
+
+            statement.setInt(1, post.getID());
+            statement.setInt(2, userid);
+            statement.setString(3, text);
+            statement.setDate(4, date);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    System.out.println(generatedId);
+                    Comment comment = new Comment(generatedId, text, user, date);
+                    post.addComment(comment);
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User authenticate(String email, String password) {
+        String query = "SELECT * FROM [User] WHERE email = (?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String pass = resultSet.getString("password");
+                    int id = resultSet.getInt("userID");
+                    if (pass.equals(password)) {
+                        return SocialMedia.searchUserByID("u" + Integer.toString(id));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void likePost(User user, Post post) {

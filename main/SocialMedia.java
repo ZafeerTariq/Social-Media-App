@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -36,6 +37,19 @@ public class SocialMedia {
 		db.initConnection();
 		db.loadUsers();
 		db.loadPosts();
+		db.loadComments();
+
+		posts.get(0).addComment(new Comment(2, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(3, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(4, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(5, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(6, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(7, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(8, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(9, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(10, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(11, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
+		posts.get(0).addComment(new Comment(12, "new comment 12", users.get(1), new java.sql.Date(2023, 12, 9)));
 
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new LoginPage());
@@ -58,6 +72,14 @@ public class SocialMedia {
 		for (int i = 0; i < pages.size(); i++) {
 			if (pages.get(i).getID().equals(id))
 				return pages.get(i);
+		}
+		return null;
+	}
+
+	public static Post searchPostByID(int id) {
+		for (int i = 0; i < posts.size(); i++) {
+			if (posts.get(i).getID() == id)
+				return posts.get(i);
 		}
 		return null;
 	}

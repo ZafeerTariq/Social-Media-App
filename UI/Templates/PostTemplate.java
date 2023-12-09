@@ -12,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import Models.Post;
+import UI.Screens.ViewPostPage;
 import main.SocialMedia;
 
 public class PostTemplate extends JPanel {
@@ -68,13 +69,12 @@ public class PostTemplate extends JPanel {
 	}
 
 	private void likeButtonActionPerformed(ActionEvent evt) {
-		//TODO Like post
 		System.out.println("like button pressed");
 		SocialMedia.getCurrentUser().likePost(post);
 	}
 
 	private void commentButtonActionPerformed(ActionEvent evt) {
-		//TODO open comment box
 		System.out.println("comment button pressed");
+		SocialMedia.states.changeState(new ViewPostPage(post));
 	}
 }
