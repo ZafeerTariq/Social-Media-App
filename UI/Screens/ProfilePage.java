@@ -41,7 +41,7 @@ public class ProfilePage extends BasePage {
 		JPanel leftAligned = new JPanel();
 		leftAligned.setLayout(new BoxLayout(leftAligned, BoxLayout.Y_AXIS));
 
-		for (int i = 1; i < user.getFriends().size(); i++) {
+		for (int i = 0; i < user.getFriends().size(); i++) {
 			leftAligned.add(new JLabel(" "));
 			leftAligned.add(new UserButton(user.getFriends().get(i)));
 		}
