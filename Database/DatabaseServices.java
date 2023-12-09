@@ -13,6 +13,7 @@ import Models.Post;
 import Models.User;
 import Models.Comment;
 import Models.Object;
+import Models.Page;
 import main.SocialMedia;
 
 public class DatabaseServices {
@@ -245,6 +246,32 @@ public class DatabaseServices {
                     System.out.println(generatedId);
                     Comment comment = new Comment(generatedId, text, user, date);
                     post.addComment(comment);
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addPage(User user, String pageName) {
+        String query = "INSERT INTO Page (userID, pageName) "
+                    + "VALUES (?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            int userid = Integer.parseInt(user.getID().substring(1));
+
+            statement.setInt(1, userid);
+            statement.setString(2, pageName);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    Page page = new Page(generatedId, pageName);
+                    SocialMedia.pages.add(page);
                     return true;
                 }
             }

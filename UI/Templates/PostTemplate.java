@@ -77,8 +77,6 @@ public class PostTemplate extends JPanel {
 
 	private boolean checkLiked() {
 		for (Object user : post.getLikes()) {
-			System.out.println(user.getID());
-			System.out.println(SocialMedia.getCurrentUser().getID());
 			if (user.getID().equals(SocialMedia.getCurrentUser().getID()))
 				return true;
 		}

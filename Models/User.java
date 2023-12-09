@@ -48,6 +48,10 @@ public class User extends Object {
 		SocialMedia.db.addComment(this, text, post);
 	}
 
+	public void createPage(String pageName) {
+		SocialMedia.db.addPage(this, pageName);
+	}
+
 	public ArrayList<Post> getPosts() {
 		return posts;
 	}

@@ -52,8 +52,9 @@ public class SocialMedia {
 		posts.get(0).addComment(new Comment(11, "new comment", users.get(1), new java.sql.Date(2023, 12, 9)));
 		posts.get(0).addComment(new Comment(12, "new comment 12", users.get(1), new java.sql.Date(2023, 12, 9)));
 
+		currentUser = users.get(0);
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new LoginPage());
+			states.changeState(new HomePage());
 		});
 	}
 
