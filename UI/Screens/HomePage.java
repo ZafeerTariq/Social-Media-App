@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
+import Models.Page;
 import Models.Post;
 import Models.User;
 import UI.Templates.PostTemplate;
@@ -29,13 +30,26 @@ public class HomePage extends BasePage {
         User user = SocialMedia.getCurrentUser();
         if (user != null) {
             container.setPreferredSize(new Dimension(1280, 0));
+            int count = 0;
+
             for (User friend : user.getFriends()) {
                 ArrayList<Post> posts = friend.getPosts();
                 container.setPreferredSize(
                     new Dimension(1280, container.getHeight() + ((posts.size() + 1) * (200 + 10)))
                 );
                 for (int i = 0; i < posts.size(); i++) {
-                    container.add(new PostTemplate(posts.get(i), i));
+                    container.add(new PostTemplate(posts.get(i), count));
+                    count++;
+                }
+            }
+            for (Page page : user.getLikedPages()) {
+                ArrayList<Post> posts = page.getPosts();
+                container.setPreferredSize(
+                    new Dimension(1280, container.getHeight() + ((posts.size() + 1) * (200 + 10)))
+                );
+                for (int i = 0; i < posts.size(); i++) {
+                    container.add(new PostTemplate(posts.get(i), count));
+                    count++;
                 }
             }
         }
@@ -155,19 +169,16 @@ public class HomePage extends BasePage {
         pack();
         setLocationRelativeTo(null);
     }
+
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        System.out.println("settings button pressed");
         SocialMedia.states.changeState(new SettingsPage());
     }
 
     private void addPostButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         SocialMedia.states.changeState(new AddPostPage());
     }
 
     private void gotoProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         SocialMedia.states.changeState(new ProfilePage(SocialMedia.getCurrentUser()));
     }
 

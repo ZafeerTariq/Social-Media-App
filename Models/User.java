@@ -51,8 +51,7 @@ public class User extends Object {
 	}
 
 	public void likePage(Page page) {
-		if (SocialMedia.db.likePage(this, page))
-			likedPages.add(page);
+		likedPages.add(page);
 	}
 
 	public void postComment(Post post, String text) {
@@ -70,12 +69,12 @@ public class User extends Object {
 	public void updateData(String fname, String lname, String phone,
 		String username, String city, String bio, ArrayList<Hobby> hobbies) {
 
-			this.firstName = fname;
-			this.lastName = lname;
-			this.phoneNumber = phone;
-			this.username = username;
-			this.city = city;
-			this.hobbies = hobbies;
+		this.firstName = fname;
+		this.lastName = lname;
+		this.phoneNumber = phone;
+		this.username = username;
+		this.city = city;
+		this.hobbies = hobbies;
 	}
 
 	public ArrayList<Post> getPosts() {
@@ -84,6 +83,10 @@ public class User extends Object {
 
 	public ArrayList<User> getFriends() {
 		return friends;
+	}
+
+	public ArrayList<Page> getLikedPages() {
+		return likedPages;
 	}
 
 	public String getBio() {

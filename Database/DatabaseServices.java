@@ -61,7 +61,11 @@ public class DatabaseServices {
             e.printStackTrace();
         }
 
-        query = "SELECT * FROM friendship";
+        loadFriendships();
+    }
+
+    private void loadFriendships() {
+        String query = "SELECT * FROM friendship";
         try (PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -78,6 +82,23 @@ public class DatabaseServices {
                 ).addFriend(
                     SocialMedia.searchUserByID("u" + Integer.toString(id1))
                 );
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadLikedPages() {
+        String query = "SELECT * FROM follower";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int uid = resultSet.getInt("userID");
+                int pid = resultSet.getInt("pageID");
+
+                User user = SocialMedia.searchUserByID("u" + Integer.toString(uid));
+                Page page = SocialMedia.searchPageByID("p" + Integer.toString(pid));
+                user.likePage(page);
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -409,6 +430,7 @@ public class DatabaseServices {
 
             if (rowsAffected > 0) {
                 System.out.println("page liked");
+                user.likePage(page);
                 return true;
             }
         } catch (SQLException e) {

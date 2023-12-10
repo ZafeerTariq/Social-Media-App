@@ -25,6 +25,7 @@ public class SocialMedia {
 		db.initConnection();
 		db.loadUsers();
 		db.loadPages();
+		db.loadLikedPages();
 		db.loadPosts();
 		db.loadLikes();
 		db.loadComments();
