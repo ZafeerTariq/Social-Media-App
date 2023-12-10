@@ -1,12 +1,17 @@
 package UI.Screens;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
 
 import Models.Page;
 import Models.User;
+import UI.Templates.UserButton;
 import main.SocialMedia;
 
 public class SearchPage extends BasePage {
@@ -111,14 +116,27 @@ public class SearchPage extends BasePage {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		String name = searchTextField.getText();
+
         ArrayList<User> users =  SocialMedia.db.searchUser(name);
+		ArrayList<Page> pages = SocialMedia.db.searchPage(name);
+
+		resultsContainer.removeAll();
+
+		resultsContainer.setLayout(new BoxLayout(resultsContainer, BoxLayout.Y_AXIS));
+		resultsContainer.setPreferredSize(new Dimension(resultsContainer.getWidth(), 100 + users.size() * 20 + pages.size() * 20));
+		resultsContainer.setBorder(new EmptyBorder(20, 20, 0, 0));
+
 		for (User user : users) {
 			System.out.println(user.getName());
+			resultsContainer.add(new UserButton(user));
 		}
-		ArrayList<Page> pages = SocialMedia.db.searchPage(name);
 		for (Page page : pages) {
 			System.out.println(page.getName());
+			resultsContainer.add(new UserButton(page));
 		}
+
+		resultsContainer.revalidate();
+    	resultsContainer.repaint();
 	}
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
