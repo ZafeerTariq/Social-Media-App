@@ -1,0 +1,128 @@
+package UI.Screens;
+
+import java.util.ArrayList;
+
+import Models.User;
+import main.SocialMedia;
+
+public class SearchPage extends BasePage {
+	public SearchPage() {
+        initComponents();
+    }
+
+	private void initComponents() {
+        pageHeading = new javax.swing.JLabel();
+        searchTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        resultScrPane = new javax.swing.JScrollPane();
+        resultsContainer = new javax.swing.JPanel();
+
+        pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
+        pageHeading.setText("Search");
+
+        searchTextField.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextFieldActionPerformed(evt);
+            }
+        });
+
+        searchButton.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        backButton.setText("jButton1");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        resultScrPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        javax.swing.GroupLayout resultsContainerLayout = new javax.swing.GroupLayout(resultsContainer);
+        resultsContainer.setLayout(resultsContainerLayout);
+        resultsContainerLayout.setHorizontalGroup(
+            resultsContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 710, Short.MAX_VALUE)
+        );
+        resultsContainerLayout.setVerticalGroup(
+            resultsContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 510, Short.MAX_VALUE)
+        );
+
+        resultScrPane.setViewportView(resultsContainer);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pageHeading)
+                .addGap(578, 578, 578))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(494, 494, 494)
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(searchButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(283, 283, 283)
+                        .addComponent(resultScrPane, javax.swing.GroupLayout.PREFERRED_SIZE, 712, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(285, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pageHeading))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(backButton)))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
+                .addGap(40, 40, 40)
+                .addComponent(resultScrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        ArrayList<User> users =  SocialMedia.db.searchUser(searchTextField.getText());
+		for (User user : users) {
+			System.out.println(user.getName());
+		}
+	}
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        SocialMedia.states.changeState(new HomePage());
+	}
+
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    // Variables declaration - do not modify
+    private javax.swing.JButton backButton;
+    private javax.swing.JLabel pageHeading;
+    private javax.swing.JScrollPane resultScrPane;
+    private javax.swing.JPanel resultsContainer;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchTextField;
+    // End of variables declaration
+}

@@ -414,6 +414,36 @@ public class DatabaseServices {
         }
     }
 
+    public ArrayList<User> searchUser(String name) {
+        String[] names = name.split(" ");
+        String query = "";
+
+        if (names.length == 1)
+            query = "SELECT * FROM [User] WHERE first_name like ?";
+        else if (names.length == 2)
+            query = "SELECT * FROM [User] WHERE first_name like ? and last_name like ?";
+
+        if (query.isEmpty())
+            return null;
+
+        ArrayList<User> users = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "%" + names[0] + "%");
+            if (names.length == 2) statement.setString(2, "%" + names[1] + "%");
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("userID");
+                User user = SocialMedia.searchUserByID("u" + Integer.toString(id));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     private boolean userHobbyExists(int userId, int hobbyId) throws SQLException {
         String query = "SELECT COUNT(*) FROM user_hobbies WHERE user_id = ? AND hobby_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

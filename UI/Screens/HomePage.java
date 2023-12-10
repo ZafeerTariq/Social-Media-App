@@ -49,6 +49,7 @@ public class HomePage extends BasePage {
         settingsButton = new javax.swing.JButton();
         addPostButton = new javax.swing.JButton();
         gotoProfileButton = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +86,14 @@ public class HomePage extends BasePage {
             }
         });
 
+        searchButton.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
@@ -94,7 +103,9 @@ public class HomePage extends BasePage {
                 .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(containerLayout.createSequentialGroup()
                         .addComponent(pageHeading)
-                        .addGap(721, 721, 721)
+                        .addGap(613, 613, 613)
+                        .addComponent(searchButton)
+                        .addGap(18, 18, 18)
                         .addComponent(gotoProfileButton)
                         .addGap(18, 18, 18)
                         .addComponent(addPostButton)
@@ -117,7 +128,8 @@ public class HomePage extends BasePage {
                             .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(addPostButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(gotoProfileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(gotoProfileButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(1037, Short.MAX_VALUE))
@@ -143,7 +155,6 @@ public class HomePage extends BasePage {
         pack();
         setLocationRelativeTo(null);
     }
-
     private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         System.out.println("settings button pressed");
@@ -160,6 +171,10 @@ public class HomePage extends BasePage {
         SocialMedia.states.changeState(new ProfilePage(SocialMedia.getCurrentUser()));
     }
 
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        SocialMedia.states.changeState(new SearchPage());
+    }
+
     // Variables declaration - do not modify
     private javax.swing.JPanel container;
     private javax.swing.JLabel pageHeading;
@@ -168,5 +183,6 @@ public class HomePage extends BasePage {
     private javax.swing.JButton settingsButton;
     private javax.swing.JButton addPostButton;
     private javax.swing.JButton gotoProfileButton;
+    private javax.swing.JButton searchButton;
     // End of variables declaration
 }
