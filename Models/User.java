@@ -16,6 +16,7 @@ public class User extends Object {
 	private ArrayList<Hobby> hobbies;
 	private ArrayList<User> friends;
 	private ArrayList<Post> posts;
+	private ArrayList<Page> likedPages;
 
 	public User(int id, String username, String fName, String lName, String bio, String phone, Date dob, String city) {
 		this.id = "u" + Integer.toString(id);
@@ -29,6 +30,7 @@ public class User extends Object {
 		this.hobbies = new ArrayList<>();
 		this.friends = new ArrayList<>();
 		this.posts = new ArrayList<>();
+		this.likedPages = new ArrayList<>();
 	}
 
 	public void addFriend(User friend) {
@@ -46,6 +48,11 @@ public class User extends Object {
 
 	public void likePost(Post post) {
 		SocialMedia.db.likePost(this, post);
+	}
+
+	public void likePage(Page page) {
+		if (SocialMedia.db.likePage(this, page))
+			likedPages.add(page);
 	}
 
 	public void postComment(Post post, String text) {

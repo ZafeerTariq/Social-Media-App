@@ -395,6 +395,28 @@ public class DatabaseServices {
         }
     }
 
+    public boolean likePage(User user, Page page) {
+        String query = "INSERT INTO follower (userID, pageID) VALUES (?, ?);";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            int uid = Integer.parseInt(user.getID().substring(1));
+            int pid = Integer.parseInt(page.getID().substring(1));
+
+            statement.setInt(1, uid);
+            statement.setInt(2, pid);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("page liked");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void updateUserData(User user, String fname, String lname, String phone,
         String username, String city, String bio, ArrayList<Hobby> hobbies) {
 

@@ -25,7 +25,6 @@ public class UserButton extends JLabel {
 				if (object.getID().charAt(0) == 'u')
 					SocialMedia.states.changeState(new ProfilePage(SocialMedia.searchUserByID(object.getID())));
 				else
-					System.out.println("transition to view page page");
 					SocialMedia.states.changeState(new ViewPagePage(SocialMedia.searchPageByID(object.getID())));
             }
         });

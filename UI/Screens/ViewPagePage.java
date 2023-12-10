@@ -116,7 +116,7 @@ public class ViewPagePage extends BasePage {
     }// </editor-fold>                        
 
     private void likeButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        SocialMedia.getCurrentUser().likePage(page);
 	}
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
