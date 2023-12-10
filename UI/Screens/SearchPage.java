@@ -1,7 +1,11 @@
 package UI.Screens;
 
+import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
+import Models.Page;
 import Models.User;
 import main.SocialMedia;
 
@@ -36,7 +40,10 @@ public class SearchPage extends BasePage {
             }
         });
 
-        backButton.setText("jButton1");
+        ImageIcon backIcon = new ImageIcon(getClass().getResource("/images/back icon.png"));
+        backButton.setIcon(
+            new ImageIcon(backIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH))
+        );
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -103,9 +110,14 @@ public class SearchPage extends BasePage {
     }// </editor-fold>                        
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        ArrayList<User> users =  SocialMedia.db.searchUser(searchTextField.getText());
+		String name = searchTextField.getText();
+        ArrayList<User> users =  SocialMedia.db.searchUser(name);
 		for (User user : users) {
 			System.out.println(user.getName());
+		}
+		ArrayList<Page> pages = SocialMedia.db.searchPage(name);
+		for (Page page : pages) {
+			System.out.println(page.getName());
 		}
 	}
 

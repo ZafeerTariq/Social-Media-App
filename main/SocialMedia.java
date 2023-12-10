@@ -24,6 +24,7 @@ public class SocialMedia {
 	private SocialMedia() {
 		db.initConnection();
 		db.loadUsers();
+		db.loadPages();
 		db.loadPosts();
 		db.loadLikes();
 		db.loadComments();
@@ -39,6 +40,14 @@ public class SocialMedia {
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).getID().equals(id))
 				return users.get(i);
+		}
+		return null;
+	}
+
+	public static Page searchPageByID(String id) {
+		for (int i = 0; i < pages.size(); i++) {
+			if (pages.get(i).getID().equals(id))
+				return pages.get(i);
 		}
 		return null;
 	}

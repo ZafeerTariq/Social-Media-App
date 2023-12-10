@@ -84,6 +84,23 @@ public class DatabaseServices {
         }
     }
 
+    public void loadPages() {
+        String query = "SELECT * FROM [Page]";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("pageID");
+                int userid = resultSet.getInt("userID");
+                String name = resultSet.getString("pageName");
+
+                User u = SocialMedia.searchUserByID("u" + Integer.toString(userid));
+                SocialMedia.pages.add(new Page(id, name, u));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadPosts() {
         String query = "SELECT * FROM Post";
         try (PreparedStatement statement = connection.prepareStatement(query);
@@ -301,7 +318,7 @@ public class DatabaseServices {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int generatedId = generatedKeys.getInt(1);
-                    Page page = new Page(generatedId, pageName);
+                    Page page = new Page(generatedId, pageName, user);
                     SocialMedia.pages.add(page);
                     return true;
                 }
@@ -442,6 +459,26 @@ public class DatabaseServices {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public ArrayList<Page> searchPage(String name) {
+        String query = "SELECT * FROM [Page] WHERE pageName like ?";
+
+        ArrayList<Page> pages = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, "%" + name + "%");
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("pageID");
+                Page page = SocialMedia.searchPageByID("p" + Integer.toString(id));
+                pages.add(page);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pages;
     }
 
     private boolean userHobbyExists(int userId, int hobbyId) throws SQLException {
