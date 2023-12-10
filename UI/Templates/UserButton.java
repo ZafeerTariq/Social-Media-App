@@ -7,9 +7,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 
 import Models.Object;
-import Models.Page;
-import Models.User;
 import UI.Screens.ProfilePage;
+import UI.Screens.ViewPagePage;
 import main.SocialMedia;
 
 public class UserButton extends JLabel {
@@ -27,7 +26,7 @@ public class UserButton extends JLabel {
 					SocialMedia.states.changeState(new ProfilePage(SocialMedia.searchUserByID(object.getID())));
 				else
 					System.out.println("transition to view page page");
-					// SocialMedia.states.changeState(new ViewPagePage(SocialMedia.searchPageByID(object.getID())));
+					SocialMedia.states.changeState(new ViewPagePage(SocialMedia.searchPageByID(object.getID())));
             }
         });
 	}

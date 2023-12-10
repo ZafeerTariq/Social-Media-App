@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 import Models.Page;
@@ -112,7 +111,7 @@ public class SearchPage extends BasePage {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		String name = searchTextField.getText();

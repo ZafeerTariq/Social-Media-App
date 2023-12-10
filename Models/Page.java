@@ -28,4 +28,8 @@ public class Page extends Object {
 	public String getID() {
 		return id;
 	}
+
+	public ArrayList<Post> getPosts() {
+		return posts;
+	}
 }
