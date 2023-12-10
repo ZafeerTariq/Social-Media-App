@@ -124,8 +124,7 @@ public class SettingsPage extends BasePage {
     }
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-		System.out.println("Log Out Button Pressed");
+        SocialMedia.states.changeState(new LoginPage());
     }
 
     private void createPageButtonActionPerformed(java.awt.event.ActionEvent evt) {
