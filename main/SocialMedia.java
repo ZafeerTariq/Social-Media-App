@@ -33,9 +33,8 @@ public class SocialMedia {
 		db.loadHobbies();
 		db.loadActivities();
 
-		currentUser = users.get(1);
 		SwingUtilities.invokeLater(() -> {
-			states.changeState(new HomePage());
+			states.changeState(new LoginPage());
 		});
 	}
 

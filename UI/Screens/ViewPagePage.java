@@ -19,6 +19,9 @@ public class ViewPagePage extends BasePage {
         initComponents();
 		loadPageData();
 
+        if (SocialMedia.getCurrentUser().getLikedPages().contains(page))
+            likeButton.setVisible(false);
+
 		//Bring the view to the start of page
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
