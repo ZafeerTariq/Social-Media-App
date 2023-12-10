@@ -18,6 +18,7 @@ public class SocialMedia {
 	public static ArrayList<Page> pages = new ArrayList<>();
 	public static ArrayList<Post> posts = new ArrayList<>();
 	public static ArrayList<Hobby> hobbies = new ArrayList<>();
+	public static ArrayList<Activity> activities = new ArrayList<>();
 
 	private static User currentUser;
 
@@ -30,8 +31,9 @@ public class SocialMedia {
 		db.loadLikes();
 		db.loadComments();
 		db.loadHobbies();
+		db.loadActivities();
 
-		currentUser = users.get(0);
+		currentUser = users.get(1);
 		SwingUtilities.invokeLater(() -> {
 			states.changeState(new HomePage());
 		});
@@ -77,6 +79,14 @@ public class SocialMedia {
 		for (int i = 0; i < hobbies.size(); i++) {
 			if (hobbies.get(i).getID() == id)
 				return hobbies.get(i);
+		}
+		return null;
+	}
+
+	public static Activity searchActivityByID(int id) {
+		for (int i = 0; i < activities.size(); i++) {
+			if (activities.get(i).getID() == id)
+				return activities.get(i);
 		}
 		return null;
 	}

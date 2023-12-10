@@ -29,7 +29,6 @@ public class PostTemplate extends JPanel {
 
 	public PostTemplate(Post post, int n) {
 		this.post = post;
-		String text = this.post.getText();
 
 		isLiked = checkLiked();
 
@@ -40,8 +39,16 @@ public class PostTemplate extends JPanel {
 
 		postText.setLineWrap(true);
 		postText.setWrapStyleWord(true);
-		postText.setText(text);
 		postText.setEditable(false);
+
+		String postTest;
+		if (post.isActivity()) {
+			postTest = "ACTIVITY: " + post.getActivity().getText() + " " + this.post.getText();
+		}
+		else {
+			postTest = this.post.getText();
+		}
+		postText.setText(postTest);
 
 		JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         usernamePanel.add(username);

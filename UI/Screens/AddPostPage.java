@@ -4,12 +4,24 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import Models.Activity;
 import main.SocialMedia;
 
 public class AddPostPage extends BasePage {
     public AddPostPage() {
         initComponents();
-		errorLabel.setVisible(false);;
+		errorLabel.setVisible(false);
+
+        loadActivities();
+    }
+
+    private void loadActivities() {
+        activityDropDown.setVisible(isActivityCheckBox.isSelected());
+        String[] activities = new String[4];
+        for (int i = 0; i < SocialMedia.activities.size(); i++) {
+            activities[i] = SocialMedia.activities.get(i).getText();
+        }
+        activityDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(activities));
     }
 
     private void initComponents() {
@@ -19,6 +31,8 @@ public class AddPostPage extends BasePage {
         postTextArea = new javax.swing.JTextArea();
         postButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
+        isActivityCheckBox = new javax.swing.JCheckBox();
+        activityDropDown = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,16 +69,26 @@ public class AddPostPage extends BasePage {
         errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         errorLabel.setText("Error");
 
+        isActivityCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        isActivityCheckBox.setText("Activity");
+        isActivityCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isActivityCheckBoxActionPerformed(evt);
+            }
+        });
+
+        activityDropDown.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        
+        activityDropDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activityDropDownActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(482, 482, 482)
-                .addComponent(pageHeading)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(395, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,6 +101,19 @@ public class AddPostPage extends BasePage {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(434, 434, 434))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(482, 482, 482)
+                        .addComponent(pageHeading))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(465, 465, 465)
+                        .addComponent(isActivityCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(215, 215, 215)
+                        .addComponent(activityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,17 +125,21 @@ public class AddPostPage extends BasePage {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(backButton)))
-                .addGap(70, 70, 70)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(isActivityCheckBox)
+                    .addComponent(activityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(postButton)
                 .addGap(72, 72, 72)
                 .addComponent(errorLabel)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>
+    }
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		SocialMedia.states.changeState(new HomePage());
@@ -111,16 +152,30 @@ public class AddPostPage extends BasePage {
 			errorLabel.setVisible(true);
 		}
 		else {
-			if (SocialMedia.db.addPost(SocialMedia.getCurrentUser().getID(), postText)) {
-				errorLabel.setText("Posted Successfully");
-				errorLabel.setVisible(true);
-			}
-			else {
-				errorLabel.setText("Could not post due to an error");
-				errorLabel.setVisible(true);
-			}
+            if (isActivityCheckBox.isSelected()) {
+                Activity activity = SocialMedia.activities.get(activityDropDown.getSelectedIndex());
+                SocialMedia.db.addPostAsActivity(SocialMedia.getCurrentUser().getID(), postText, activity);
+            }
+            else {
+                if (SocialMedia.db.addPost(SocialMedia.getCurrentUser().getID(), postText)) {
+                    errorLabel.setText("Posted Successfully");
+                    errorLabel.setVisible(true);
+                }
+                else {
+                    errorLabel.setText("Could not post due to an error");
+                    errorLabel.setVisible(true);
+                }
+            }
 		}
 	}
+
+    private void isActivityCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        activityDropDown.setVisible(isActivityCheckBox.isSelected());
+    }
+
+    private void activityDropDownActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
 
 	// Variables declaration - do not modify
     private javax.swing.JButton backButton;
@@ -129,5 +184,7 @@ public class AddPostPage extends BasePage {
     private javax.swing.JButton postButton;
     private javax.swing.JTextArea postTextArea;
 	private javax.swing.JLabel errorLabel;
+    private javax.swing.JCheckBox isActivityCheckBox;
+    private javax.swing.JComboBox<String> activityDropDown;
     // End of variables declaration
 }

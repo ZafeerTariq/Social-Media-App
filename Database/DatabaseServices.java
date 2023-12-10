@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import Models.Post;
 import Models.User;
+import Models.Activity;
 import Models.Comment;
 import Models.Hobby;
 import Models.Object;
@@ -223,6 +224,35 @@ public class DatabaseServices {
         }
     }
 
+    public void loadActivities() {
+        String query = "SELECT * FROM Activity";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int id = resultSet.getInt("activityID");
+                String text = resultSet.getString("text");
+
+                Activity activity = new Activity(id, text);
+                SocialMedia.activities.add(activity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        query = "SELECT * FROM User_Activity";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                int pid = resultSet.getInt("postID");
+                int activityID = resultSet.getInt("activityID");
+
+                SocialMedia.searchPostByID(pid).addActivity(SocialMedia.searchActivityByID(activityID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean addUser(String fname, String lname, String email, String password, String contact, Date dob) {
         String query = "INSERT INTO \"User\" "
         + "(first_name, last_name, email, password, contact, dob) "
@@ -287,6 +317,70 @@ public class DatabaseServices {
                 return true;
             } else {
                 System.out.println("Failed to insert user");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addPostAsActivity(String objId, String text, Activity activity) {
+        Object poster = SocialMedia.searchObjectByID(objId);
+
+        LocalDate currentDate = LocalDate.now();
+        Date date = Date.valueOf(currentDate);
+
+        String query = "";
+        if (objId.charAt(0) == 'u') {
+            //user posted
+            query = "INSERT INTO Post (postDate, userID, postText) "
+                    + "VALUES (?, ?, ?);";
+        }
+        else if (objId.charAt(0) == 'p') {
+            //page posted
+            query = "INSERT INTO Post (postDate, pageID, postText) "
+                    + "VALUES (?, ?, ?);";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            int id = Integer.parseInt(objId.substring(1));
+
+            statement.setDate(1, date);
+            statement.setInt(2, id);
+            statement.setString(3, text);
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Posted successfully");
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    Post post = new Post(generatedId, text, poster, date);
+                    if (addActivity(post, activity))
+                        SocialMedia.posts.add(post);
+                }
+                return true;
+            } else {
+                System.out.println("Failed to insert user");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean addActivity(Post post, Activity activity) {
+        String query = "INSERT INTO User_Activity (postID, activityID) VALUES (?, ?);";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, post.getID());
+            statement.setInt(2, activity.getID());
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                post.addActivity(activity);
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ public class Post {
 	private Object sharedBy;
 	private String text;
 	private Date postDate;
+	private Activity activity;
 	private ArrayList<Object> likedBy;
 	private ArrayList<Comment> comments;
 
@@ -18,6 +19,8 @@ public class Post {
 		this.postDate = posted;
 		this.likedBy = new ArrayList<>();
 		this.comments = new ArrayList<>();
+
+		activity = null;
 	}
 
 	public void addLike(User user) {
@@ -26,6 +29,18 @@ public class Post {
 
 	public void addComment(Comment comment) {
 		comments.add(comment);
+	}
+
+	public boolean isActivity() {
+		return activity != null;
+	}
+
+	public void addActivity(Activity activity) {
+		this.activity = activity;
+	}
+
+	public Activity getActivity() {
+		return activity;
 	}
 
 	public ArrayList<Object> getLikes() {
