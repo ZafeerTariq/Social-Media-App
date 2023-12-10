@@ -1,5 +1,9 @@
 package UI.Screens;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import main.SocialMedia;
 
 public class RegistrationPage extends BasePage {
@@ -31,6 +35,7 @@ public class RegistrationPage extends BasePage {
         yearTextField = new javax.swing.JTextField();
         registerButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -145,6 +150,16 @@ public class RegistrationPage extends BasePage {
         errorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         errorLabel.setText("Error");
 
+        ImageIcon backIcon = new ImageIcon(getClass().getResource("/images/back icon.png"));
+        backButton.setIcon(
+            new ImageIcon(backIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH))
+        );
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,7 +169,9 @@ public class RegistrationPage extends BasePage {
                 .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(410, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
+                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 287, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
@@ -202,8 +219,13 @@ public class RegistrationPage extends BasePage {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pageHeading)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pageHeading))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(backButton)))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -244,7 +266,7 @@ public class RegistrationPage extends BasePage {
         );
 
         pack();
-    }// </editor-fold>
+    }
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String year = yearTextField.getText();
@@ -334,6 +356,10 @@ public class RegistrationPage extends BasePage {
         // TODO add your handling code here:
     }
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        SocialMedia.states.changeState(new LoginPage());
+    }
+
     private boolean isValidDate(int year, int month, int day) {
         if (year < 1900 || year > 2100) {
             System.out.println("Invalid year. Please provide a year between 1900 and 2100.");
@@ -376,5 +402,6 @@ public class RegistrationPage extends BasePage {
     private javax.swing.JButton registerButton;
     private javax.swing.JTextField yearTextField;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JButton backButton;
     // End of variables declaration
 }

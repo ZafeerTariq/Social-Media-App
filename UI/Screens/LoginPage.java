@@ -163,7 +163,6 @@ public class LoginPage extends BasePage {
     }
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         SocialMedia.states.changeState(new RegistrationPage());
     }
 

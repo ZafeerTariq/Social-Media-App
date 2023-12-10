@@ -8,6 +8,8 @@ import Models.Activity;
 import main.SocialMedia;
 
 public class AddPostPage extends BasePage {
+    private boolean postFromPage = false;
+
     public AddPostPage() {
         initComponents();
 		errorLabel.setVisible(false);
@@ -33,8 +35,7 @@ public class AddPostPage extends BasePage {
         errorLabel = new javax.swing.JLabel();
         isActivityCheckBox = new javax.swing.JCheckBox();
         activityDropDown = new javax.swing.JComboBox<>();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        postAsPageCheckBox = new javax.swing.JCheckBox();
 
         pageHeading.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
         pageHeading.setText("Add Post");
@@ -78,10 +79,18 @@ public class AddPostPage extends BasePage {
         });
 
         activityDropDown.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        
+        activityDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         activityDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 activityDropDownActionPerformed(evt);
+            }
+        });
+
+        postAsPageCheckBox.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        postAsPageCheckBox.setText("Post From Page");
+        postAsPageCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                postAsPageCheckBoxActionPerformed(evt);
             }
         });
 
@@ -109,9 +118,11 @@ public class AddPostPage extends BasePage {
                         .addGap(482, 482, 482)
                         .addComponent(pageHeading))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(465, 465, 465)
+                        .addGap(474, 474, 474)
+                        .addComponent(postAsPageCheckBox)
+                        .addGap(23, 23, 23)
                         .addComponent(isActivityCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(215, 215, 215)
+                        .addGap(59, 59, 59)
                         .addComponent(activityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -128,14 +139,15 @@ public class AddPostPage extends BasePage {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(isActivityCheckBox)
-                    .addComponent(activityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(activityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(postAsPageCheckBox))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(postButton)
                 .addGap(72, 72, 72)
                 .addComponent(errorLabel)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,7 +166,14 @@ public class AddPostPage extends BasePage {
 		else {
             if (isActivityCheckBox.isSelected()) {
                 Activity activity = SocialMedia.activities.get(activityDropDown.getSelectedIndex());
-                SocialMedia.db.addPostAsActivity(SocialMedia.getCurrentUser().getID(), postText, activity);
+                if (SocialMedia.db.addPostAsActivity(SocialMedia.getCurrentUser().getID(), postText, activity)) {
+                    errorLabel.setText("Posted Successfully");
+                    errorLabel.setVisible(true);
+                }
+                else {
+                    errorLabel.setText("Could not post due to an error");
+                    errorLabel.setVisible(true);
+                }
             }
             else {
                 if (SocialMedia.db.addPost(SocialMedia.getCurrentUser().getID(), postText)) {
@@ -177,6 +196,10 @@ public class AddPostPage extends BasePage {
         // TODO add your handling code here:
     }
 
+    private void postAsPageCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        postFromPage = postAsPageCheckBox.isSelected();
+    }
+
 	// Variables declaration - do not modify
     private javax.swing.JButton backButton;
     private javax.swing.JScrollPane jScrollPane1;
@@ -185,6 +208,7 @@ public class AddPostPage extends BasePage {
     private javax.swing.JTextArea postTextArea;
 	private javax.swing.JLabel errorLabel;
     private javax.swing.JCheckBox isActivityCheckBox;
+    private javax.swing.JCheckBox postAsPageCheckBox;
     private javax.swing.JComboBox<String> activityDropDown;
     // End of variables declaration
 }
