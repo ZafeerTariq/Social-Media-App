@@ -74,6 +74,7 @@ public class User extends Object {
 		this.phoneNumber = phone;
 		this.username = username;
 		this.city = city;
+		this.bio = bio;
 		this.hobbies = hobbies;
 	}
 

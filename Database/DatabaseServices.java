@@ -451,7 +451,7 @@ public class DatabaseServices {
             int userid2 = Integer.parseInt(u2.getID().substring(1));
 
             statement.setInt(1, userid1);
-            statement.setInt(1, userid2);
+            statement.setInt(2, userid2);
 
             int rowsAffected = statement.executeUpdate();
 
